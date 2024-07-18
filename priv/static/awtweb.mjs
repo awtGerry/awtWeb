@@ -150,8 +150,8 @@ var left_trim_regex = new RegExp(`^([${unicode_whitespaces}]*)`, "g");
 var right_trim_regex = new RegExp(`([${unicode_whitespaces}]*)$`, "g");
 
 // build/dev/javascript/gleam_stdlib/gleam/dynamic.mjs
-function from(a) {
-  return identity(a);
+function from(a2) {
+  return identity(a2);
 }
 
 // build/dev/javascript/gleam_stdlib/gleam/bool.mjs
@@ -182,10 +182,10 @@ var Text = class extends CustomType {
   }
 };
 var Element = class extends CustomType {
-  constructor(key, namespace, tag, attrs, children, self_closing, void$) {
+  constructor(key, namespace2, tag, attrs, children, self_closing, void$) {
     super();
     this.key = key;
-    this.namespace = namespace;
+    this.namespace = namespace2;
     this.tag = tag;
     this.attrs = attrs;
     this.children = children;
@@ -208,6 +208,12 @@ function attribute(name, value) {
 }
 function class$(name) {
   return attribute("class", name);
+}
+function href(uri) {
+  return attribute("href", uri);
+}
+function src(uri) {
+  return attribute("src", uri);
 }
 
 // build/dev/javascript/lustre/lustre/element.mjs
@@ -243,6 +249,9 @@ function element(tag, attrs, children) {
   } else {
     return new Element("", "", tag, attrs, children, false, false);
   }
+}
+function namespaced(namespace2, tag, attrs, children) {
+  return new Element("", namespace2, tag, attrs, children, false, false);
 }
 function text(content) {
   return new Text(content);
@@ -318,9 +327,9 @@ function morph(prev, next, dispatch, isComponent = false) {
   return out;
 }
 function createElementNode({ prev, next, dispatch, stack }) {
-  const namespace = next.namespace || "http://www.w3.org/1999/xhtml";
+  const namespace2 = next.namespace || "http://www.w3.org/1999/xhtml";
   const canMorph = prev && prev.nodeType === Node.ELEMENT_NODE && prev.localName === next.tag && prev.namespaceURI === (next.namespace || "http://www.w3.org/1999/xhtml");
-  const el2 = canMorph ? prev : namespace ? document.createElementNS(namespace, next.tag) : document.createElement(next.tag);
+  const el2 = canMorph ? prev : namespace2 ? document.createElementNS(namespace2, next.tag) : document.createElement(next.tag);
   let handlersForEl;
   if (!registeredHandlers.has(el2)) {
     const emptyHandlers = /* @__PURE__ */ new Map();
@@ -330,7 +339,7 @@ function createElementNode({ prev, next, dispatch, stack }) {
     handlersForEl = registeredHandlers.get(el2);
   }
   const prevHandlers = canMorph ? new Set(handlersForEl.keys()) : null;
-  const prevAttributes = canMorph ? new Set(Array.from(prev.attributes, (a) => a.name)) : null;
+  const prevAttributes = canMorph ? new Set(Array.from(prev.attributes, (a2) => a2.name)) : null;
   let className = null;
   let style = null;
   let innerHTML = null;
@@ -465,14 +474,14 @@ function lustreServerEventHandler(event) {
     tag,
     data: include.reduce(
       (data2, property) => {
-        const path = property.split(".");
-        for (let i = 0, o = data2, e = event; i < path.length; i++) {
-          if (i === path.length - 1) {
-            o[path[i]] = e[path[i]];
+        const path2 = property.split(".");
+        for (let i = 0, o = data2, e = event; i < path2.length; i++) {
+          if (i === path2.length - 1) {
+            o[path2[i]] = e[path2[i]];
           } else {
-            o[path[i]] ??= {};
-            e = e[path[i]];
-            o = o[path[i]];
+            o[path2[i]] ??= {};
+            e = e[path2[i]];
+            o = o[path2[i]];
           }
         }
         return data2;
@@ -718,34 +727,271 @@ function start3(app, selector, flags) {
 }
 
 // build/dev/javascript/lustre/lustre/element/html.mjs
+function text2(content) {
+  return text(content);
+}
+function title(attrs, content) {
+  return element("title", attrs, toList([text2(content)]));
+}
 function h1(attrs, children) {
   return element("h1", attrs, children);
 }
+function h3(attrs, children) {
+  return element("h3", attrs, children);
+}
+function nav(attrs, children) {
+  return element("nav", attrs, children);
+}
 function div(attrs, children) {
   return element("div", attrs, children);
+}
+function p(attrs, children) {
+  return element("p", attrs, children);
+}
+function a(attrs, children) {
+  return element("a", attrs, children);
+}
+function img(attrs) {
+  return element("img", attrs, toList([]));
+}
+function svg(attrs, children) {
+  return namespaced("http://www.w3.org/2000/svg", "svg", attrs, children);
 }
 function button(attrs, children) {
   return element("button", attrs, children);
 }
 
-// build/dev/javascript/awtweb/views/home.mjs
-function home() {
+// build/dev/javascript/lustre/lustre/element/svg.mjs
+var namespace = "http://www.w3.org/2000/svg";
+function path(attrs) {
+  return namespaced(namespace, "path", attrs, toList([]));
+}
+
+// build/dev/javascript/awtweb/components/navbar.mjs
+function hamburger_menu() {
   return div(
-    toList([]),
+    toList([class$("text-gray-800 dark:text-stone-100")]),
     toList([
-      h1(
-        toList([class$("text-4xl mb-12 text-red-500")]),
-        toList([text("Hello, World!")])
-      ),
       button(
         toList([
           class$(
-            "bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
-          )
+            "inline-flex items-center p-2 w-10 h-10 justify-center text-sm text-gray-500 rounded-lg lg:hidden hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-200 dark:text-gray-400 dark:hover:bg-gray-700 dark:focus:ring-gray-600"
+          ),
+          attribute("aria-controls", "navbar-language"),
+          attribute("aria-expanded", "false")
         ]),
-        toList([text("Button")])
+        toList([
+          svg(
+            toList([
+              class$("block h-6 w-6 fill-current"),
+              attribute("viewBox", "0 0 20 20"),
+              attribute("xmlns", "http://www.w3.org/2000/svg")
+            ]),
+            toList([
+              title(toList([]), "Mobile menu"),
+              path(
+                toList([
+                  attribute("d", "M0 3h20v2H0V3zm0 6h20v2H0V9zm0 6h20v2H0v-2z")
+                ])
+              )
+            ])
+          )
+        ])
       )
     ])
+  );
+}
+function toggle_theme() {
+  return div(
+    toList([class$("text-gray-800 dark:text-stone-100")]),
+    toList([
+      button(
+        toList([
+          class$(
+            "inline-flex items-center p-2 w-10 h-10 justify-center text-sm text-gray-500 rounded-lg lg:hidden hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-200 dark:text-gray-400 dark:hover:bg-gray-700 dark:focus:ring-gray-600"
+          ),
+          attribute("aria-controls", "navbar-language"),
+          attribute("aria-expanded", "false")
+        ]),
+        toList([
+          svg(
+            toList([
+              class$("w-6 h-6"),
+              attribute("aria-hidden", "true"),
+              attribute("xmlns", "http://www.w3.org/2000/svg"),
+              attribute("fill", "none"),
+              attribute("viewBox", "0 0 20 20")
+            ]),
+            toList([
+              path(
+                toList([
+                  attribute("stroke", "currentColor"),
+                  attribute("stroke-linecap", "round"),
+                  attribute("stroke-linejoin", "round"),
+                  attribute("stroke-width", "2"),
+                  attribute(
+                    "d",
+                    "M17.293 13.293A8 8 0 016.707 2.707a8.001 8.001 0 1010.586 10.586z"
+                  )
+                ])
+              )
+            ])
+          )
+        ])
+      )
+    ])
+  );
+}
+function navbar() {
+  return div(
+    toList([
+      class$(
+        "bg-slate-100 dark:bg-gray-800 flex flex-wrap items-center justify-between p-4 mx-auto w-full"
+      )
+    ]),
+    toList([
+      nav(
+        toList([class$("")]),
+        toList([
+          a(
+            toList([
+              class$(
+                "\n            text-gray-600 dark:text-stone-100 font-serif\n            text-2xl hover:text-cyan-600 dark:hover:text-stone-50\n            transition-colors duration-200 ease-in-out\n          "
+              ),
+              href("/")
+            ]),
+            toList([
+              div(
+                toList([class$("w-16 h-16 rounded-full overflow-hidden")]),
+                toList([
+                  img(
+                    toList([
+                      class$("w-full h-full object-cover"),
+                      src(
+                        "https://avatars.githubusercontent.com/u/84054959?v=4"
+                      )
+                    ])
+                  )
+                ])
+              )
+            ])
+          )
+        ])
+      ),
+      div(
+        toList([
+          class$(
+            "flex items-center lg:order-2 space-x-1 lg:space-x-0 rtl:space-x-reverse"
+          )
+        ]),
+        toList([toggle_theme(), hamburger_menu()])
+      )
+    ])
+  );
+}
+
+// build/dev/javascript/awtweb/views/home.mjs
+function hero() {
+  return div(
+    toList([class$("flex items-center justify-center align-center")]),
+    toList([
+      div(
+        toList([
+          class$(
+            "container mx-auto px-6 flex flex-col lg:flex-row relative py-16"
+          )
+        ]),
+        toList([
+          div(
+            toList([
+              class$(
+                "flex flex-col justify-center items-center mb-8 lg:mb-0 lg:hidden"
+              )
+            ]),
+            toList([
+              div(
+                toList([class$("w-40 h-40 overflow-hidden rounded-full")]),
+                toList([
+                  img(
+                    toList([
+                      class$("w-full h-full object-cover"),
+                      src(
+                        "https://pbs.twimg.com/profile_images/1752515582665068544/3UsnVSp5_400x400.jpg"
+                      )
+                    ])
+                  )
+                ])
+              )
+            ])
+          ),
+          div(
+            toList([
+              class$(
+                "font-code lg:w-1/2 flex flex-col justify-center items-center lg:items-start"
+              )
+            ]),
+            toList([
+              h3(
+                toList([
+                  class$(
+                    "text-xl font-light text-gray-700 dark:text-stone-300 text-center lg:text-left"
+                  )
+                ]),
+                toList([text("Hi, I am")])
+              ),
+              h1(
+                toList([
+                  class$(
+                    "text-4xl font-bold text-gray-700 dark:text-stone-100 pt-4 text-center lg:text-left"
+                  )
+                ]),
+                toList([text("Victor")])
+              ),
+              p(
+                toList([
+                  class$(
+                    "text-base text-gray-700 dark:text-stone-200 pt-2 text-center lg:text-left"
+                  )
+                ]),
+                toList([
+                  text(
+                    "\n            I am a 24 year old software engineer based in Jalisco, Mexico.\n            I am passionate about technology and I love learning new things.\n          "
+                  )
+                ])
+              )
+            ])
+          ),
+          div(
+            toList([
+              class$(
+                "flex flex-col justify-center items-center lg:w-1/2 hidden lg:flex"
+              )
+            ]),
+            toList([
+              div(
+                toList([class$("w-80 h-80 overflow-hidden")]),
+                toList([
+                  img(
+                    toList([
+                      class$("w-full h-full object-cover lg:block hidden"),
+                      src(
+                        "https://pbs.twimg.com/profile_images/1752515582665068544/3UsnVSp5_400x400.jpg"
+                      )
+                    ])
+                  )
+                ])
+              )
+            ])
+          )
+        ])
+      )
+    ])
+  );
+}
+function home() {
+  return div(
+    toList([]),
+    toList([navbar(), div(toList([class$("p-6 mt-2")]), toList([hero()]))])
   );
 }
 
