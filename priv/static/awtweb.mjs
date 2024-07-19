@@ -2,7 +2,7 @@
 var CustomType = class {
   withFields(fields) {
     let properties = Object.keys(this).map(
-      (label) => label in fields ? fields[label] : this[label]
+      (label2) => label2 in fields ? fields[label2] : this[label2]
     );
     return new this.constructor(...properties);
   }
@@ -40,12 +40,15 @@ var List = class {
     return desired === 0;
   }
   countLength() {
-    let length2 = 0;
+    let length3 = 0;
     for (let _ of this)
-      length2++;
-    return length2;
+      length3++;
+    return length3;
   }
 };
+function prepend(element2, tail) {
+  return new NonEmpty(element2, tail);
+}
 function toList(elements, tail) {
   return List.fromArray(elements, tail);
 }
@@ -111,8 +114,80 @@ function makeError(variant, module, line, fn, message, extra) {
 }
 
 // build/dev/javascript/gleam_stdlib/gleam/option.mjs
+var Some = class extends CustomType {
+  constructor(x0) {
+    super();
+    this[0] = x0;
+  }
+};
 var None = class extends CustomType {
 };
+
+// build/dev/javascript/gleam_stdlib/gleam/list.mjs
+function do_reverse(loop$remaining, loop$accumulator) {
+  while (true) {
+    let remaining = loop$remaining;
+    let accumulator = loop$accumulator;
+    if (remaining.hasLength(0)) {
+      return accumulator;
+    } else {
+      let item = remaining.head;
+      let rest$1 = remaining.tail;
+      loop$remaining = rest$1;
+      loop$accumulator = prepend(item, accumulator);
+    }
+  }
+}
+function reverse(xs) {
+  return do_reverse(xs, toList([]));
+}
+function do_map(loop$list, loop$fun, loop$acc) {
+  while (true) {
+    let list = loop$list;
+    let fun = loop$fun;
+    let acc = loop$acc;
+    if (list.hasLength(0)) {
+      return reverse(acc);
+    } else {
+      let x = list.head;
+      let xs = list.tail;
+      loop$list = xs;
+      loop$fun = fun;
+      loop$acc = prepend(fun(x), acc);
+    }
+  }
+}
+function map(list, fun) {
+  return do_map(list, fun, toList([]));
+}
+
+// build/dev/javascript/gleam_stdlib/gleam/string_builder.mjs
+function from_string(string3) {
+  return identity(string3);
+}
+function to_string(builder) {
+  return identity(builder);
+}
+function split2(iodata, pattern) {
+  return split(iodata, pattern);
+}
+
+// build/dev/javascript/gleam_stdlib/gleam/string.mjs
+function split3(x, substring) {
+  if (substring === "") {
+    return graphemes(x);
+  } else {
+    let _pipe = x;
+    let _pipe$1 = from_string(_pipe);
+    let _pipe$2 = split2(_pipe$1, substring);
+    return map(_pipe$2, to_string);
+  }
+}
+
+// build/dev/javascript/gleam_stdlib/gleam/dynamic.mjs
+function from(a2) {
+  return identity(a2);
+}
 
 // build/dev/javascript/gleam_stdlib/dict.mjs
 var tempDataView = new DataView(new ArrayBuffer(8));
@@ -125,6 +200,22 @@ var MIN_ARRAY_NODE = BUCKET_SIZE / 4;
 // build/dev/javascript/gleam_stdlib/gleam_stdlib.mjs
 function identity(x) {
   return x;
+}
+function graphemes(string3) {
+  const iterator = graphemes_iterator(string3);
+  if (iterator) {
+    return List.fromArray(Array.from(iterator).map((item) => item.segment));
+  } else {
+    return List.fromArray(string3.match(/./gsu));
+  }
+}
+function graphemes_iterator(string3) {
+  if (Intl && Intl.Segmenter) {
+    return new Intl.Segmenter().segment(string3)[Symbol.iterator]();
+  }
+}
+function split(xs, pattern) {
+  return List.fromArray(xs.split(pattern));
 }
 var unicode_whitespaces = [
   " ",
@@ -149,9 +240,56 @@ var unicode_whitespaces = [
 var left_trim_regex = new RegExp(`^([${unicode_whitespaces}]*)`, "g");
 var right_trim_regex = new RegExp(`([${unicode_whitespaces}]*)$`, "g");
 
-// build/dev/javascript/gleam_stdlib/gleam/dynamic.mjs
-function from(a2) {
-  return identity(a2);
+// build/dev/javascript/gleam_stdlib/gleam/uri.mjs
+var Uri = class extends CustomType {
+  constructor(scheme, userinfo, host, port, path2, query, fragment) {
+    super();
+    this.scheme = scheme;
+    this.userinfo = userinfo;
+    this.host = host;
+    this.port = port;
+    this.path = path2;
+    this.query = query;
+    this.fragment = fragment;
+  }
+};
+function do_remove_dot_segments(loop$input, loop$accumulator) {
+  while (true) {
+    let input3 = loop$input;
+    let accumulator = loop$accumulator;
+    if (input3.hasLength(0)) {
+      return reverse(accumulator);
+    } else {
+      let segment = input3.head;
+      let rest = input3.tail;
+      let accumulator$1 = (() => {
+        if (segment === "") {
+          let accumulator$12 = accumulator;
+          return accumulator$12;
+        } else if (segment === ".") {
+          let accumulator$12 = accumulator;
+          return accumulator$12;
+        } else if (segment === ".." && accumulator.hasLength(0)) {
+          return toList([]);
+        } else if (segment === ".." && accumulator.atLeastLength(1)) {
+          let accumulator$12 = accumulator.tail;
+          return accumulator$12;
+        } else {
+          let segment$1 = segment;
+          let accumulator$12 = accumulator;
+          return prepend(segment$1, accumulator$12);
+        }
+      })();
+      loop$input = rest;
+      loop$accumulator = accumulator$1;
+    }
+  }
+}
+function remove_dot_segments(input3) {
+  return do_remove_dot_segments(input3, toList([]));
+}
+function path_segments(path2) {
+  return remove_dot_segments(split3(path2, "/"));
 }
 
 // build/dev/javascript/gleam_stdlib/gleam/bool.mjs
@@ -170,6 +308,11 @@ var Effect = class extends CustomType {
     this.all = all;
   }
 };
+function from2(effect) {
+  return new Effect(toList([(dispatch, _) => {
+    return effect(dispatch);
+  }]));
+}
 function none() {
   return new Effect(toList([]));
 }
@@ -182,11 +325,11 @@ var Text = class extends CustomType {
   }
 };
 var Element = class extends CustomType {
-  constructor(key, namespace2, tag, attrs, children, self_closing, void$) {
+  constructor(key, namespace2, tag2, attrs, children, self_closing, void$) {
     super();
     this.key = key;
     this.namespace = namespace2;
-    this.tag = tag;
+    this.tag = tag2;
     this.attrs = attrs;
     this.children = children;
     this.self_closing = self_closing;
@@ -217,41 +360,41 @@ function src(uri) {
 }
 
 // build/dev/javascript/lustre/lustre/element.mjs
-function element(tag, attrs, children) {
-  if (tag === "area") {
-    return new Element("", "", tag, attrs, toList([]), false, true);
-  } else if (tag === "base") {
-    return new Element("", "", tag, attrs, toList([]), false, true);
-  } else if (tag === "br") {
-    return new Element("", "", tag, attrs, toList([]), false, true);
-  } else if (tag === "col") {
-    return new Element("", "", tag, attrs, toList([]), false, true);
-  } else if (tag === "embed") {
-    return new Element("", "", tag, attrs, toList([]), false, true);
-  } else if (tag === "hr") {
-    return new Element("", "", tag, attrs, toList([]), false, true);
-  } else if (tag === "img") {
-    return new Element("", "", tag, attrs, toList([]), false, true);
-  } else if (tag === "input") {
-    return new Element("", "", tag, attrs, toList([]), false, true);
-  } else if (tag === "link") {
-    return new Element("", "", tag, attrs, toList([]), false, true);
-  } else if (tag === "meta") {
-    return new Element("", "", tag, attrs, toList([]), false, true);
-  } else if (tag === "param") {
-    return new Element("", "", tag, attrs, toList([]), false, true);
-  } else if (tag === "source") {
-    return new Element("", "", tag, attrs, toList([]), false, true);
-  } else if (tag === "track") {
-    return new Element("", "", tag, attrs, toList([]), false, true);
-  } else if (tag === "wbr") {
-    return new Element("", "", tag, attrs, toList([]), false, true);
+function element(tag2, attrs, children) {
+  if (tag2 === "area") {
+    return new Element("", "", tag2, attrs, toList([]), false, true);
+  } else if (tag2 === "base") {
+    return new Element("", "", tag2, attrs, toList([]), false, true);
+  } else if (tag2 === "br") {
+    return new Element("", "", tag2, attrs, toList([]), false, true);
+  } else if (tag2 === "col") {
+    return new Element("", "", tag2, attrs, toList([]), false, true);
+  } else if (tag2 === "embed") {
+    return new Element("", "", tag2, attrs, toList([]), false, true);
+  } else if (tag2 === "hr") {
+    return new Element("", "", tag2, attrs, toList([]), false, true);
+  } else if (tag2 === "img") {
+    return new Element("", "", tag2, attrs, toList([]), false, true);
+  } else if (tag2 === "input") {
+    return new Element("", "", tag2, attrs, toList([]), false, true);
+  } else if (tag2 === "link") {
+    return new Element("", "", tag2, attrs, toList([]), false, true);
+  } else if (tag2 === "meta") {
+    return new Element("", "", tag2, attrs, toList([]), false, true);
+  } else if (tag2 === "param") {
+    return new Element("", "", tag2, attrs, toList([]), false, true);
+  } else if (tag2 === "source") {
+    return new Element("", "", tag2, attrs, toList([]), false, true);
+  } else if (tag2 === "track") {
+    return new Element("", "", tag2, attrs, toList([]), false, true);
+  } else if (tag2 === "wbr") {
+    return new Element("", "", tag2, attrs, toList([]), false, true);
   } else {
-    return new Element("", "", tag, attrs, children, false, false);
+    return new Element("", "", tag2, attrs, children, false, false);
   }
 }
-function namespaced(namespace2, tag, attrs, children) {
-  return new Element("", namespace2, tag, attrs, children, false, false);
+function namespaced(namespace2, tag2, attrs, children) {
+  return new Element("", namespace2, tag2, attrs, children, false, false);
 }
 function text(content) {
   return new Text(content);
@@ -282,9 +425,9 @@ var ForceModel = class extends CustomType {
 // build/dev/javascript/lustre/vdom.ffi.mjs
 function morph(prev, next, dispatch, isComponent = false) {
   let out;
-  let stack = [{ prev, next, parent: prev.parentNode }];
-  while (stack.length) {
-    let { prev: prev2, next: next2, parent } = stack.pop();
+  let stack3 = [{ prev, next, parent: prev.parentNode }];
+  while (stack3.length) {
+    let { prev: prev2, next: next2, parent } = stack3.pop();
     if (next2.subtree !== void 0)
       next2 = next2.subtree();
     if (next2.content !== void 0) {
@@ -306,7 +449,7 @@ function morph(prev, next, dispatch, isComponent = false) {
         prev: prev2,
         next: next2,
         dispatch,
-        stack,
+        stack: stack3,
         isComponent
       });
       if (!prev2) {
@@ -317,16 +460,16 @@ function morph(prev, next, dispatch, isComponent = false) {
       out ??= created;
     } else if (next2.elements !== void 0) {
       iterateElement(next2, (fragmentElement) => {
-        stack.unshift({ prev: prev2, next: fragmentElement, parent });
+        stack3.unshift({ prev: prev2, next: fragmentElement, parent });
         prev2 = prev2?.nextSibling;
       });
     } else if (next2.subtree !== void 0) {
-      stack.push({ prev: prev2, next: next2, parent });
+      stack3.push({ prev: prev2, next: next2, parent });
     }
   }
   return out;
 }
-function createElementNode({ prev, next, dispatch, stack }) {
+function createElementNode({ prev, next, dispatch, stack: stack3 }) {
   const namespace2 = next.namespace || "http://www.w3.org/1999/xhtml";
   const canMorph = prev && prev.nodeType === Node.ELEMENT_NODE && prev.localName === next.tag && prev.namespaceURI === (next.namespace || "http://www.w3.org/1999/xhtml");
   const el2 = canMorph ? prev : namespace2 ? document.createElementNS(namespace2, next.tag) : document.createElement(next.tag);
@@ -341,7 +484,7 @@ function createElementNode({ prev, next, dispatch, stack }) {
   const prevHandlers = canMorph ? new Set(handlersForEl.keys()) : null;
   const prevAttributes = canMorph ? new Set(Array.from(prev.attributes, (a2) => a2.name)) : null;
   let className = null;
-  let style = null;
+  let style2 = null;
   let innerHTML = null;
   for (const attr of next.attrs) {
     const name = attr[0];
@@ -371,7 +514,7 @@ function createElementNode({ prev, next, dispatch, stack }) {
     } else if (name === "class") {
       className = className === null ? value : className + " " + value;
     } else if (name === "style") {
-      style = style === null ? value : style + value;
+      style2 = style2 === null ? value : style2 + value;
     } else if (name === "dangerous-unescaped-html") {
       innerHTML = value;
     } else {
@@ -388,8 +531,8 @@ function createElementNode({ prev, next, dispatch, stack }) {
     if (canMorph)
       prevAttributes.delete("class");
   }
-  if (style !== null) {
-    el2.setAttribute("style", style);
+  if (style2 !== null) {
+    el2.setAttribute("style", style2);
     if (canMorph)
       prevAttributes.delete("style");
   }
@@ -427,13 +570,13 @@ function createElementNode({ prev, next, dispatch, stack }) {
           prevChild,
           currElement,
           el2,
-          stack,
+          stack3,
           incomingKeyedChildren,
           keyedChildren,
           seenKeys
         );
       } else {
-        stack.unshift({ prev: prevChild, next: currElement, parent: el2 });
+        stack3.unshift({ prev: prevChild, next: currElement, parent: el2 });
         prevChild = prevChild?.nextSibling;
       }
     });
@@ -461,7 +604,7 @@ function lustreGenericEventHandler(event) {
 }
 function lustreServerEventHandler(event) {
   const el2 = event.currentTarget;
-  const tag = el2.getAttribute(`data-lustre-on-${event.type}`);
+  const tag2 = el2.getAttribute(`data-lustre-on-${event.type}`);
   const data = JSON.parse(el2.getAttribute("data-lustre-data") || "{}");
   const include = JSON.parse(el2.getAttribute("data-lustre-include") || "[]");
   switch (event.type) {
@@ -471,7 +614,7 @@ function lustreServerEventHandler(event) {
       break;
   }
   return {
-    tag,
+    tag: tag2,
     data: include.reduce(
       (data2, property) => {
         const path2 = property.split(".");
@@ -503,7 +646,7 @@ function getKeyedChildren(el2) {
   }
   return keyedChildren;
 }
-function diffKeyedChild(prevChild, child, el2, stack, incomingKeyedChildren, keyedChildren, seenKeys) {
+function diffKeyedChild(prevChild, child, el2, stack3, incomingKeyedChildren, keyedChildren, seenKeys) {
   while (prevChild && !incomingKeyedChildren.has(prevChild.getAttribute("data-lustre-key"))) {
     const nextChild = prevChild.nextSibling;
     el2.removeChild(prevChild);
@@ -511,44 +654,44 @@ function diffKeyedChild(prevChild, child, el2, stack, incomingKeyedChildren, key
   }
   if (keyedChildren.size === 0) {
     iterateElement(child, (currChild) => {
-      stack.unshift({ prev: prevChild, next: currChild, parent: el2 });
+      stack3.unshift({ prev: prevChild, next: currChild, parent: el2 });
       prevChild = prevChild?.nextSibling;
     });
     return prevChild;
   }
   if (seenKeys.has(child.key)) {
     console.warn(`Duplicate key found in Lustre vnode: ${child.key}`);
-    stack.unshift({ prev: null, next: child, parent: el2 });
+    stack3.unshift({ prev: null, next: child, parent: el2 });
     return prevChild;
   }
   seenKeys.add(child.key);
   const keyedChild = keyedChildren.get(child.key);
   if (!keyedChild && !prevChild) {
-    stack.unshift({ prev: null, next: child, parent: el2 });
+    stack3.unshift({ prev: null, next: child, parent: el2 });
     return prevChild;
   }
   if (!keyedChild && prevChild !== null) {
     const placeholder = document.createTextNode("");
     el2.insertBefore(placeholder, prevChild);
-    stack.unshift({ prev: placeholder, next: child, parent: el2 });
+    stack3.unshift({ prev: placeholder, next: child, parent: el2 });
     return prevChild;
   }
   if (!keyedChild || keyedChild === prevChild) {
-    stack.unshift({ prev: prevChild, next: child, parent: el2 });
+    stack3.unshift({ prev: prevChild, next: child, parent: el2 });
     prevChild = prevChild?.nextSibling;
     return prevChild;
   }
   el2.insertBefore(keyedChild, prevChild);
-  stack.unshift({ prev: keyedChild, next: child, parent: el2 });
+  stack3.unshift({ prev: keyedChild, next: child, parent: el2 });
   return prevChild;
 }
-function iterateElement(element3, processElement) {
-  if (element3.elements !== void 0) {
-    for (const currElement of element3.elements) {
+function iterateElement(element2, processElement) {
+  if (element2.elements !== void 0) {
+    for (const currElement of element2.elements) {
       processElement(currElement);
     }
   } else {
-    processElement(element3);
+    processElement(element2);
   }
 }
 
@@ -562,19 +705,19 @@ var LustreClientApplication2 = class _LustreClientApplication {
   #model = null;
   #update = null;
   #view = null;
-  static start(flags, selector, init2, update, view) {
+  static start(flags, selector, init4, update2, view2) {
     if (!is_browser())
       return new Error(new NotABrowser());
     const root2 = selector instanceof HTMLElement ? selector : document.querySelector(selector);
     if (!root2)
       return new Error(new ElementNotFound(selector));
-    const app = new _LustreClientApplication(init2(flags), update, view, root2);
+    const app = new _LustreClientApplication(init4(flags), update2, view2, root2);
     return new Ok((msg) => app.send(msg));
   }
-  constructor([model, effects], update, view, root2 = document.body, isComponent = false) {
+  constructor([model, effects], update2, view2, root2 = document.body, isComponent = false) {
     this.#model = model;
-    this.#update = update;
-    this.#view = view;
+    this.#update = update2;
+    this.#view = view2;
     this.#root = root2;
     this.#effects = effects.all.toArray();
     this.#didUpdate = true;
@@ -685,11 +828,11 @@ var is_browser = () => globalThis.window && window.document;
 
 // build/dev/javascript/lustre/lustre.mjs
 var App = class extends CustomType {
-  constructor(init2, update, view, on_attribute_change) {
+  constructor(init4, update2, view2, on_attribute_change) {
     super();
-    this.init = init2;
-    this.update = update;
-    this.view = view;
+    this.init = init4;
+    this.update = update2;
+    this.view = view2;
     this.on_attribute_change = on_attribute_change;
   }
 };
@@ -701,20 +844,8 @@ var ElementNotFound = class extends CustomType {
 };
 var NotABrowser = class extends CustomType {
 };
-function application(init2, update, view) {
-  return new App(init2, update, view, new None());
-}
-function element2(html) {
-  let init2 = (_) => {
-    return [void 0, none()];
-  };
-  let update = (_, _1) => {
-    return [void 0, none()];
-  };
-  let view = (_) => {
-    return html;
-  };
-  return application(init2, update, view);
+function application(init4, update2, view2) {
+  return new App(init4, update2, view2, new None());
 }
 function start3(app, selector, flags) {
   return guard(
@@ -761,6 +892,120 @@ function button(attrs, children) {
   return element("button", attrs, children);
 }
 
+// build/dev/javascript/lustre_ui/lustre/ui/layout/stack.mjs
+function of(element2, attributes, children) {
+  return element2(
+    prepend(class$("lustre-ui-stack"), attributes),
+    children
+  );
+}
+function stack(attributes, children) {
+  return of(div, attributes, children);
+}
+
+// build/dev/javascript/lustre_ui/lustre/ui.mjs
+var stack2 = stack;
+
+// build/dev/javascript/modem/modem.ffi.mjs
+var defaults = {
+  handle_external_links: false,
+  handle_internal_links: true
+};
+var initial_location = window?.location?.href;
+var do_init = (dispatch, options = defaults) => {
+  document.body.addEventListener("click", (event) => {
+    const a2 = find_anchor(event.target);
+    if (!a2)
+      return;
+    try {
+      const url = new URL(a2.href);
+      const uri = uri_from_url(url);
+      const is_external = url.host !== window.location.host;
+      if (!options.handle_external_links && is_external)
+        return;
+      if (!options.handle_internal_links && !is_external)
+        return;
+      event.preventDefault();
+      if (!is_external) {
+        window.history.pushState({}, "", a2.href);
+        window.requestAnimationFrame(() => {
+          if (url.hash) {
+            document.getElementById(url.hash.slice(1))?.scrollIntoView();
+          }
+        });
+      }
+      return dispatch(uri);
+    } catch {
+      return;
+    }
+  });
+  window.addEventListener("popstate", (e) => {
+    e.preventDefault();
+    const url = new URL(window.location.href);
+    const uri = uri_from_url(url);
+    window.requestAnimationFrame(() => {
+      if (url.hash) {
+        document.getElementById(url.hash.slice(1))?.scrollIntoView();
+      }
+    });
+    dispatch(uri);
+  });
+  window.addEventListener("modem-push", ({ detail }) => {
+    dispatch(detail);
+  });
+  window.addEventListener("modem-replace", ({ detail }) => {
+    dispatch(detail);
+  });
+};
+var find_anchor = (el2) => {
+  if (el2.tagName === "BODY") {
+    return null;
+  } else if (el2.tagName === "A") {
+    return el2;
+  } else {
+    return find_anchor(el2.parentElement);
+  }
+};
+var uri_from_url = (url) => {
+  return new Uri(
+    /* scheme   */
+    url.protocol ? new Some(url.protocol) : new None(),
+    /* userinfo */
+    new None(),
+    /* host     */
+    url.hostname ? new Some(url.hostname) : new None(),
+    /* port     */
+    url.port ? new Some(Number(url.port)) : new None(),
+    /* path     */
+    url.pathname,
+    /* query    */
+    url.search ? new Some(url.search.slice(1)) : new None(),
+    /* fragment */
+    url.hash ? new Some(url.hash.slice(1)) : new None()
+  );
+};
+
+// build/dev/javascript/modem/modem.mjs
+function init2(handler) {
+  return from2(
+    (dispatch) => {
+      return guard(
+        !is_browser(),
+        void 0,
+        () => {
+          return do_init(
+            (uri) => {
+              let _pipe = uri;
+              let _pipe$1 = handler(_pipe);
+              return dispatch(_pipe$1);
+            }
+          );
+        }
+      );
+    }
+  );
+}
+
 // build/dev/javascript/lustre/lustre/element/svg.mjs
 var namespace = "http://www.w3.org/2000/svg";
 function path(attrs) {
@@ -801,6 +1046,51 @@ function hamburger_menu() {
     ])
   );
 }
+function desktop_menu() {
+  return div(
+    toList([
+      class$("hidden lg:flex lg:items-center lg:w-auto lg:space-x-6 pl-8")
+    ]),
+    toList([
+      a(
+        toList([
+          class$(
+            "font-serif text-gray-600 dark:text-stone-100 hover:text-cyan-600 dark:hover:text-stone-50 transition-colors duration-200 ease-in-out"
+          ),
+          href("/")
+        ]),
+        toList([text("Home")])
+      ),
+      a(
+        toList([
+          class$(
+            "font-serif text-gray-600 dark:text-stone-100 hover:text-cyan-600 dark:hover:text-stone-50 transition-colors duration-200 ease-in-out"
+          ),
+          href("/projects")
+        ]),
+        toList([text("Projects")])
+      ),
+      a(
+        toList([
+          class$(
+            "font-serif text-gray-600 dark:text-stone-100 hover:text-cyan-600 dark:hover:text-stone-50 transition-colors duration-200 ease-in-out"
+          ),
+          href("/blog")
+        ]),
+        toList([text("Blog")])
+      ),
+      a(
+        toList([
+          class$(
+            "font-serif text-gray-600 dark:text-stone-100 hover:text-cyan-600 dark:hover:text-stone-50 transition-colors duration-200 ease-in-out"
+          ),
+          href("/social")
+        ]),
+        toList([text("Social")])
+      )
+    ])
+  );
+}
 function toggle_theme() {
   return div(
     toList([class$("text-gray-800 dark:text-stone-100")]),
@@ -808,7 +1098,7 @@ function toggle_theme() {
       button(
         toList([
           class$(
-            "inline-flex items-center p-2 w-10 h-10 justify-center text-sm text-gray-500 rounded-lg lg:hidden hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-200 dark:text-gray-400 dark:hover:bg-gray-700 dark:focus:ring-gray-600"
+            "inline-flex items-center p-2 w-10 h-10 justify-center text-sm text-gray-500 rounded-lg hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-200 dark:text-gray-400 dark:hover:bg-gray-700 dark:focus:ring-gray-600"
           ),
           attribute("aria-controls", "navbar-language"),
           attribute("aria-expanded", "false")
@@ -816,7 +1106,7 @@ function toggle_theme() {
         toList([
           svg(
             toList([
-              class$("w-6 h-6"),
+              class$("w-6 h-6 fill-current"),
               attribute("aria-hidden", "true"),
               attribute("xmlns", "http://www.w3.org/2000/svg"),
               attribute("fill", "none"),
@@ -845,13 +1135,13 @@ function toggle_theme() {
 function navbar() {
   return div(
     toList([
-      class$(
-        "bg-slate-100 dark:bg-gray-800 flex flex-wrap items-center justify-between p-4 mx-auto w-full"
-      )
+      class$("bg-slate-100 dark:bg-gray-800 flex flex-wrap items-center p-4")
     ]),
     toList([
       nav(
-        toList([class$("")]),
+        toList([
+          class$("flex flex-row md:px-8 sm:px-8 justify-between mx-auto w-full")
+        ]),
         toList([
           a(
             toList([
@@ -875,16 +1165,16 @@ function navbar() {
                 ])
               )
             ])
+          ),
+          div(
+            toList([
+              class$(
+                "flex items-center lg:order-2 space-x-1 lg:space-x-0 rtl:space-x-reverse"
+              )
+            ]),
+            toList([toggle_theme(), desktop_menu(), hamburger_menu()])
           )
         ])
-      ),
-      div(
-        toList([
-          class$(
-            "flex items-center lg:order-2 space-x-1 lg:space-x-0 rtl:space-x-reverse"
-          )
-        ]),
-        toList([toggle_theme(), hamburger_menu()])
       )
     ])
   );
@@ -988,29 +1278,96 @@ function hero() {
     ])
   );
 }
-function home() {
+function home(_) {
   return div(
     toList([]),
-    toList([navbar(), div(toList([class$("p-6 mt-2")]), toList([hero()]))])
+    toList([div(toList([class$("p-6 mt-2")]), toList([hero()]))])
+  );
+}
+
+// build/dev/javascript/awtweb/views/projects.mjs
+function viewer() {
+  return div(
+    toList([class$("flex items-center justify-center align-center")]),
+    toList([text("HELLO FROM PROJECTS")])
+  );
+}
+function projects(_) {
+  return div(
+    toList([]),
+    toList([div(toList([class$("p-6 mt-2")]), toList([viewer()]))])
   );
 }
 
 // build/dev/javascript/awtweb/awtweb.mjs
+var Model = class extends CustomType {
+  constructor(content) {
+    super();
+    this.content = content;
+  }
+};
+var Home = class extends CustomType {
+};
+var Projects = class extends CustomType {
+};
+var Blog = class extends CustomType {
+};
+var Hardware = class extends CustomType {
+};
+var RouteChanged = class extends CustomType {
+  constructor(x0) {
+    super();
+    this[0] = x0;
+  }
+};
+function change_route(uri) {
+  let $ = path_segments(uri.path);
+  if ($.hasLength(1) && $.head === "projects") {
+    return new RouteChanged(new Projects());
+  } else if ($.hasLength(1) && $.head === "blog") {
+    return new RouteChanged(new Blog());
+  } else if ($.hasLength(1) && $.head === "hardware") {
+    return new RouteChanged(new Hardware());
+  } else {
+    return new RouteChanged(new Home());
+  }
+}
+function init3(_) {
+  return [new Model(new Home()), init2(change_route)];
+}
+function update(_, msg) {
+  {
+    let route = msg[0];
+    return [new Model(route), none()];
+  }
+}
+function view(model) {
+  let page_content = (() => {
+    let $ = model.content;
+    if ($ instanceof Home) {
+      return home(model);
+    } else if ($ instanceof Projects) {
+      return projects(model);
+    } else {
+      throw makeError("todo", "awtweb", 61, "view", "rest of views", {});
+    }
+  })();
+  return stack2(toList([]), toList([navbar(), page_content]));
+}
 function main() {
-  let home_view = home();
-  let app = element2(home_view);
+  let app = application(init3, update, view);
   let $ = start3(app, "#app", void 0);
   if (!$.isOk()) {
     throw makeError(
       "assignment_no_match",
       "awtweb",
-      7,
+      14,
       "main",
       "Assignment pattern did not match",
       { value: $ }
     );
   }
-  return void 0;
+  return $;
 }
 
 // build/.lustre/entry.mjs

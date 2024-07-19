@@ -2,11 +2,8 @@ import lustre/attribute.{class}
 import lustre/element.{text}
 import lustre/element/html.{div}
 
-import components/navbar.{navbar}
-
-pub fn home() -> element.Element(a) {
+pub fn home(_model) -> element.Element(a) {
   div([], [
-    navbar(),
     div([class("p-6 mt-2")],
     [
       hero(),
