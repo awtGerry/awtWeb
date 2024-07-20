@@ -4,7 +4,7 @@ import lustre/element/html.{div, button, nav}
 import lustre/element/svg
 
 pub fn navbar() -> element.Element(a) {
-  div([class("bg-slate-100 dark:bg-gray-800 flex flex-wrap items-center p-4")], [
+  div([class("bg-slate-100 dark:bg-gray-800 flex flex-wrap items-center p-4 sticky top-0 z-50")], [
     nav([class("flex flex-row md:px-8 sm:px-8 justify-between mx-auto w-full")], [
       // Logo
       html.a(
@@ -66,40 +66,45 @@ fn desktop_menu() -> element.Element(a) {
   div([class("hidden lg:flex lg:items-center lg:w-auto lg:space-x-6 pl-8")], [
     html.a(
       [
-        class("font-serif text-gray-600 dark:text-stone-100 hover:text-cyan-600 dark:hover:text-stone-50 transition-colors duration-200 ease-in-out"),
+        class("font-serif text-gray-600 dark:text-stone-100 hover:text-emerald-400 dark:hover:text-emerald-300 transition-colors duration-200 ease-in-out"),
         href("/"),
       ],
       [text("Home")],
     ),
     html.a(
       [
-        class("font-serif text-gray-600 dark:text-stone-100 hover:text-cyan-600 dark:hover:text-stone-50 transition-colors duration-200 ease-in-out"),
+        class("font-serif text-gray-600 dark:text-stone-100 hover:text-emerald-400 dark:hover:text-emerald-300 transition-colors duration-200 ease-in-out"),
         href("/projects"),
       ],
       [text("Projects")],
     ),
     html.a(
       [
-        class("font-serif text-gray-600 dark:text-stone-100 hover:text-cyan-600 dark:hover:text-stone-50 transition-colors duration-200 ease-in-out"),
+        class("font-serif text-gray-600 dark:text-stone-100 hover:text-emerald-400 dark:hover:text-emerald-300 transition-colors duration-200 ease-in-out"),
         href("/blog"),
       ],
       [text("Blog")],
     ),
     html.a(
       [
-        class("font-serif text-gray-600 dark:text-stone-100 hover:text-cyan-600 dark:hover:text-stone-50 transition-colors duration-200 ease-in-out"),
-        href("/social"),
+        class("font-serif text-gray-600 dark:text-stone-100 hover:text-emerald-400 dark:hover:text-emerald-300 transition-colors duration-200 ease-in-out"),
+        href("/myuse"),
       ],
-      [text("Social")],
+      [text("My use")],
     ),
   ])
 }
 
 fn toggle_theme() -> element.Element(a) {
-  div([class("text-gray-800 dark:text-stone-100")], [
+  div([class("text-gray-800 dark:text-stone-100 hover:text-emerald-500 dark:hover:text-emerald-500")], [
     button(
       [
-        class("inline-flex items-center p-2 w-10 h-10 justify-center text-sm text-gray-500 rounded-lg hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-200 dark:text-gray-400 dark:hover:bg-gray-700 dark:focus:ring-gray-600"),
+        class("
+          inline-flex items-center p-2 w-10 h-10 justify-center text-sm text-gray-500 dark:text-gray-400
+          hover:text-emerald-400 dark:hover:text-emerald-300
+          rounded-lg focus:outline-none focus:ring-2 focus:ring-gray-200 dark:focus:ring-gray-600
+          transition-colors duration-200 ease-in-out
+        "),
         attribute("aria-controls", "navbar-language"),
         attribute("aria-expanded", "false"),
       ],
@@ -114,6 +119,7 @@ fn toggle_theme() -> element.Element(a) {
           ],
           [
             svg.path([
+              attribute("fill", "currentColor"),
               attribute("stroke", "currentColor"),
               attribute("stroke-linecap", "round"),
               attribute("stroke-linejoin", "round"),
