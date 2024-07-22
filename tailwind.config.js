@@ -1,6 +1,6 @@
 module.exports = {
   content: ["./index.html", "./src/**/*.{gleam,mjs}"],
-  darkMode: 'class',
+  darkMode: 'selector',
   theme: {
     extend: {
       fontFamily: {

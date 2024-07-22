@@ -1,4 +1,4 @@
-import gleam/string
+import lustre/effect
 import lustre/element/svg
 import lustre/attribute.{class, attribute}
 import lustre/element.{text}
@@ -6,7 +6,7 @@ import lustre/element/html.{div, a}
 
 pub fn home(_model) -> element.Element(a) {
   div([], [
-    div([class("p-6 bg-gray-100 dark:bg-gray-900")],
+    div([class("p-6 bg-gray-50 dark:bg-gray-900")],
     [
       hero(),
       divider(),
