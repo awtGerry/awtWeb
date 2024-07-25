@@ -1,8 +1,13 @@
-import lustre/effect
+import gleam/list
+import gleam/int
 import lustre/element/svg
 import lustre/attribute.{class, attribute}
 import lustre/element.{text}
 import lustre/element/html.{div, a}
+
+pub type Skills {
+  Skill(name: String, per: Int)
+}
 
 pub fn home(_model) -> element.Element(a) {
   div([], [
@@ -34,28 +39,19 @@ pub fn home(_model) -> element.Element(a) {
       // SKILLS
       div([class("container mx-auto px-6 py-4")],
       [
-        html.h2([class("text-3xl font-bold text-gray-700 dark:text-stone-100")], [text("Skills")]),
-        html.p([class("text-gray-700 dark:text-stone-200 pt-4")],
-        [
-          text("
-            I have experience with the following technologies:
-          "),
-        ]),
-        html.ul([class("text-gray-700 dark:text-stone-200 pt-4 list-disc")],
-        [
-          html.li([], [text("C")]),
-          html.li([], [text("Rust")]),
-          html.li([], [text("JavaScript")]),
-          html.li([], [text("React")]),
-          html.li([], [text("Vue")]),
-          html.li([], [text("TailwindCSS")]),
-          html.li([], [text("PostgreSQL")]),
-          html.li([], [text("MongoDB")]),
-          html.li([], [text("Docker")]),
-          html.li([], [text("Kubernetes")]),
-          html.li([], [text("AWS")]),
-          html.li([], [text("GCP")]),
-        ]),
+        html.h2([class("text-3xl font-bold text-gray-700 dark:text-stone-100 mb-6")], [text("Skills")]),
+        div([class("relative"), attribute.style([#("height: 780px;", "")])], [
+          div([class("charts w-full h-full absolute top-0 left-0 z-10")], [
+            div([class("chart mb-2.5")], [
+              html.span([class("text-gray-700 dark:text-stone-300 block mb-2.5 ml-1 font-bold")], [text("Programming Languages")]),
+              html.div([class("overflow-hidden")], lang_chart()),
+            ]),
+            div([class("chart mb-2.5")], [
+              html.span([class("text-gray-700 dark:text-stone-300 block mb-2.5 ml-1 font-bold")], [text("Productivity")]),
+              html.div([class("overflow-hidden")], productivity_chart()),
+            ]),
+          ]),
+        ])
       ]),
     ]),
   ])
@@ -169,4 +165,45 @@ fn desktop_view() -> element.Element(a) {
       ]),
     ]),
   ])
+}
+
+fn lang_chart() -> List(element.Element(a)) {
+  let languages: List(Skills) = [
+    Skill("Rust", 75),
+    Skill("Java", 70),
+    Skill("C/C++", 65),
+    Skill("JS/TS", 55),
+    Skill("Python", 30),
+  ]
+
+  list.map(languages, fn(lang) {
+    div([
+      class("h-7 mb-2.5 bg-gradient-to-l from-cyan-400 to-teal-500 rounded-r-lg"),
+      attribute.style([#("width: " <> int.to_string(lang.per) <> "%;", "")])
+    ],
+    [
+      html.span([class("pl-2.5 text-white leading-7")], [text(lang.name)])
+    ])
+  })
+}
+
+fn productivity_chart() -> List(element.Element(a)) {
+  let productivity: List(Skills) = [
+    Skill("Git", 75),
+    Skill("Docker", 50),
+    Skill("AWS", 30),
+  ]
+
+  list.map(productivity, fn(prod) {
+    div([
+      class("h-7 mb-2.5 bg-gradient-to-l from-cyan-400 to-teal-500 rounded-r-lg"),
+      attribute.style([#("width: " <> int.to_string(prod.per) <> "%;", "")])
+    ],
+    [
+      html.div([class("flex justify-between")], [
+        html.span([class("pl-2.5 text-white leading-7")], [text(prod.name)]),
+        html.span([class("pr-2.5 text-white leading-7")], [text(int.to_string(prod.per) <> "%")])
+      ])
+    ])
+  })
 }
