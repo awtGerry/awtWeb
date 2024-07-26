@@ -3,38 +3,6 @@ import lustre/element.{text}
 import lustre/element/html.{div, button, nav}
 import lustre/element/svg
 
-// pub fn navbar(_model) -> element.Element(a) {
-//   div([class("bg-gray-100 dark:bg-gray-800 flex flex-wrap items-center p-4 sticky top-0 z-50")], [
-//     nav([class("flex flex-row md:px-8 sm:px-8 justify-between container mx-auto")], [
-//       // Logo
-//       html.a(
-//         [
-//           class("
-//             text-gray-600 dark:text-stone-100 font-serif
-//             text-2xl hover:text-cyan-600 dark:hover:text-stone-50
-//             transition-colors duration-200 ease-in-out
-//           "),
-//           href("/")
-//         ],
-//         [
-//           div([class("w-16 h-16 rounded-full overflow-hidden")],
-//           [
-//             html.img([
-//               class("w-full h-full object-cover"),
-//               attribute.src("https://avatars.githubusercontent.com/u/84054959?v=4")
-//             ])
-//           ]),
-//         ]
-//       ),
-//       div([class("flex items-center lg:order-2 space-x-1 lg:space-x-0 rtl:space-x-reverse")], [
-//         theme_view(),
-//         desktop_menu(),
-//         hamburger_menu(),
-//       ]),
-//     ]),
-//   ])
-// }
-
 pub fn hamburger_menu() -> element.Element(a) {
   div([class("text-gray-800 dark:text-stone-100")], [
     button(
