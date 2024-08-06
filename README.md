@@ -14,7 +14,7 @@ Further documentation can be found at <https://hexdocs.pm/aweb>.
 ```sh
 nix develop # Enter the development environment
 
-gleam run   # Run the project
+gleam run -m lustre/dev start # Run the project
 gleam test  # Run the tests
 gleam shell # Run an Erlang shell
 ```
