@@ -4,9 +4,12 @@ import lustre/element/svg
 import lustre/attribute.{class, attribute}
 import lustre/element.{text}
 import lustre/element/html.{div, a}
+import gleam/option.{type Option, Some, None}
+
+import assets/icons
 
 pub type Skills {
-  Skill(name: String, per: Int)
+  Skill(name: String, per: Int, icon: Option(icons.Icon))
 }
 
 pub fn home(_model) -> element.Element(a) {
@@ -27,7 +30,7 @@ pub fn home(_model) -> element.Element(a) {
             I wouldn't be the person I am today.
           "),
         ]),
-        html.span([class("text-xl flex text-gray-700 dark:text-stone-200 pt-4")], [text("I enjoy:")]),
+        html.span([class("text-xl flex text-gray-700 dark:text-stone-200 pt-8")], [text("Things that i enjoy:")]),
         html.ul([class("text-gray-700 dark:text-stone-200 pt-4 list-disc text-lg")],
         [
           html.li([], [text("🖥️ Technology")]),
@@ -46,23 +49,23 @@ pub fn home(_model) -> element.Element(a) {
             div([class("mb-2.5")], [
               html.span([class("text-gray-700 dark:text-stone-300 block mb-2.5 ml-1 font-bold")], [text("Programming Languages")]),
               html.div([class("overflow-hidden")], chart([
-                Skill("Rust", 70),
-                Skill("Java", 65),
-                Skill("C/C++", 60),
-                Skill("JS/TS", 55),
-                Skill("Python", 30),
+                Skill("Rust", 70, Some(icons.rust)),
+                Skill("Java", 65, Some(icons.java)),
+                Skill("C/C++", 60, Some(icons.c)),
+                Skill("JS/TS", 55, Some(icons.js)),
+                Skill("Python", 30, Some(icons.python)),
               ])),
             ]),
             div([class("")], [
               html.span([class("text-gray-700 dark:text-stone-300 block mb-2.5 ml-1 font-bold")], [text("Backend and Productivity")]),
               html.div([class("overflow-hidden")], chart([
-                Skill("Linux", 90),
-                Skill("Git + Github", 70),
-                Skill("MySQL", 65),
-                Skill("Latex", 65),
-                Skill("Markdown", 60),
-                Skill("Docker", 45),
-                Skill("AWS", 30),
+                Skill("Linux", 80, None),
+                Skill("Git + Github", 65, None),
+                Skill("MySQL", 55, None),
+                Skill("Latex", 50, None),
+                Skill("Markdown", 50, None),
+                Skill("Docker", 25, None),
+                Skill("AWS", 20, None),
               ])),
             ]),
           ]),
@@ -81,8 +84,8 @@ fn hero() -> element.Element(a) {
       // TEXT
       div([class("font-code lg:w-1/2 flex flex-col justify-center items-center lg:items-start")],
       [
-        html.h3([class("text-xl font-light text-gray-700 dark:text-stone-300 text-center lg:text-left")], [text("Hi, I am")]),
-        html.h1([class("text-4xl font-bold text-gray-700 dark:text-stone-100 pt-2 text-center lg:text-left")], [text("Victor")]),
+        html.h3([class("text-2xl font-light text-gray-700 dark:text-stone-300 text-center lg:text-left")], [text("Hi, I am")]),
+        html.h1([class("text-6xl font-bold text-gray-700 dark:text-stone-100 pt-2 text-center lg:text-left")], [text("Victor")]),
         html.p([class("text-base text-gray-700 dark:text-stone-200 pt-8 text-center lg:text-left")],
         [
           text("
@@ -104,7 +107,7 @@ fn divider() -> element.Element(a) {
 }
 
 fn create_icon(ref: String, view_box: String, svg_path: String) -> element.Element(a) {
-  let css: String = "text-emerald-500 dark:text-emerald-400 hover:text-emerald-600 dark:hover:text-emerald-600 cursor-pointer transform hover:scale-110 transition duration-300"
+  let css: String = "text-emerald-700 dark:text-emerald-400 hover:text-emerald-600 dark:hover:text-emerald-600 cursor-pointer transform hover:scale-110 transition duration-300"
   a([class(css), attribute.href(ref)], [
     html.svg(
     [
@@ -185,13 +188,35 @@ fn desktop_view() -> element.Element(a) {
 fn chart(skills: List(Skills)) -> List(element.Element(a)) {
   list.map(skills, fn(skill) {
     div([
-      class("h-7 mb-2.5 bg-gradient-to-l from-emerald-400 to-green-500 rounded-r-lg"),
+      class("h-7 mb-2.5 bg-gradient-to-l from-emerald-500 to-green-700 rounded-r-lg"),
       attribute.style([#("width: " <> int.to_string(skill.per) <> "%;", "")])
     ],
     [
       html.div([class("flex justify-between")], [
-        html.span([class("pl-2.5 text-white leading-7")], [text(skill.name)]),
-        html.span([class("pr-2.5 text-white leading-7")], [text(int.to_string(skill.per) <> "%")])
+        html.span([class("hidden sm:block pl-2.5 text-stone-800 dark:text-stone-100 leading-7")], [text(skill.name)]),
+        html.div([class("sm:hidden")], [
+          case skill.icon {
+            Some(icon) -> {
+              html.div([class("leading-7 pl-1.5 mt-0.5")], [
+                html.svg(
+                  [
+                    class("w-6 h-6 text-stone-800 dark:text-stone-100"),
+                    attribute("viewBox", icon.view_box)
+                  ],
+                  [
+                    svg.path([
+                      attribute("fill", "currentColor"),
+                      attribute("stroke", "currentColor"),
+                      attribute("d", icon.path)
+                      ])
+                  ]
+                )
+              ])
+            }
+            None -> html.span([class("pl-2.5 text-stone-800 dark:text-stone-100 leading-7")], [text(skill.name)])
+          },
+        ]),
+        html.span([class("pr-2.5 text-stone-800 dark:text-stone-100 leading-7")], [text(int.to_string(skill.per) <> "%")])
       ])
     ])
   })

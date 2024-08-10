@@ -4,8 +4,9 @@ module.exports = {
   theme: {
     extend: {
       fontFamily: {
-        serif: ['"Merriweather"', 'serif'],
-        code: ['"Fira Code"', 'monospace'],
+        serif: ['"Libertinus"', 'serif'],
+        // serif: ['"Merriweather"', 'serif'],
+        code: ['"Libertinus"', 'sans'],
       },
     },
   },
