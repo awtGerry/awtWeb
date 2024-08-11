@@ -8,7 +8,7 @@ import gleam/uri.{type Uri}
 import modem
 
 import lustre/attribute.{class, href, attribute}
-import lustre/element/html.{div, button, nav}
+import lustre/element/html.{div, button}
 import lustre/element/svg
 import lustre/event.{on_click}
 
@@ -44,9 +44,10 @@ pub type Msg {
 pub fn init(_flags) -> #(Model, Effect(Msg)) {
   #(
     Model(
-      page_content: Home,
+      // page_content: Home,
+      page_content: Projects, // NOTE: Change this to Home when app is ready
       mobile_menu: None, // Mobile menu is not clicked by default
-      theme: Dark, // start with dark theme (TODO: This could be changed to system theme or local storage)
+      theme: Light, // start with light theme (TODO: This could be changed to system theme or local storage)
     ),
     modem.init(change_route),
   )
@@ -111,19 +112,24 @@ pub fn view(model: Model) -> Element(Msg) {
     Light -> "light"
   }
 
+  let blur = case model.mobile_menu {
+    Some(1) -> "blur-sm overflow-hidden h-screen"
+    _ -> ""
+  }
+
   // PAGE VIEW
-  ui.stack([class("w-full antialiased " <> theme_class)], [
+  ui.stack([class("w-full h-full antialiased bg-gray-50 dark:bg-gray-900 " <> theme_class)], [
     // NAVBAR
     navbar(model),
     // PAGE CONTENT
-    content
+    html.section([class(blur)], [content]),
   ])
 
 }
 
 fn navbar(model: Model) -> element.Element(Msg) {
-  div([class("bg-gray-100 dark:bg-gray-800 flex flex-wrap items-center p-4 sticky top-0 z-50")], [
-    nav([class("flex flex-row md:px-8 sm:px-8 justify-between container mx-auto")], [
+  html.header([class("bg-gray-100 dark:bg-gray-800 flex flex-wrap items-center p-4 sticky top-0 z-50")], [
+    html.nav([class("flex flex-row md:px-8 sm:px-8 justify-between container mx-auto")], [
       // Logo
       html.a(
         [
@@ -217,7 +223,7 @@ pub fn hamburger_menu(state: Option(Int)) -> element.Element(Msg) {
       ])
     }
     _ -> {
-      // Hide the mobile menu
+      // Button isn't clicked
       div([class("hidden lg:hidden")], [])
     }
   }

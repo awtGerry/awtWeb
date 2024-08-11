@@ -13,7 +13,7 @@ pub type Skills {
 }
 
 pub fn home(_model) -> element.Element(a) {
-  div([class("w-full text-lg")], [
+  div([class("w-full h-full text-lg")], [
     div([class("p-6 bg-gray-50 dark:bg-gray-900")],
     [
       hero(),
