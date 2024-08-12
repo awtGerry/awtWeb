@@ -13,7 +13,7 @@ import lustre/element/svg
 import lustre/event.{on_click}
 
 import views/home.{home}
-import views/projects.{projects}
+import views/projects.{projects_view}
 import views/myuse.{myuse}
 
 import assets/icons
@@ -47,7 +47,7 @@ pub fn init(_flags) -> #(Model, Effect(Msg)) {
       // page_content: Home,
       page_content: Projects, // NOTE: Change this to Home when app is ready
       mobile_menu: None, // Mobile menu is not clicked by default
-      theme: Light, // start with light theme (TODO: This could be changed to system theme or local storage)
+      theme: Dark, // default theme (TODO: This could be changed to system theme or local storage)
     ),
     modem.init(change_route),
   )
@@ -101,7 +101,7 @@ pub fn hamburger_clicked(current_state: Int) -> Msg {
 pub fn view(model: Model) -> Element(Msg) {
   let content = case model.page_content {
     Home -> home(model)
-    Projects -> projects(model)
+    Projects -> projects_view(model)
     Blog -> text("Blog")
     MyUse -> myuse(model)
     NotFound -> text("404")
@@ -113,16 +113,16 @@ pub fn view(model: Model) -> Element(Msg) {
   }
 
   let blur = case model.mobile_menu {
-    Some(1) -> "blur-sm overflow-hidden h-screen"
+    Some(1) -> "blur-sm overflow-hidden h-screen transition-all duration-300 ease-in-out"
     _ -> ""
   }
 
   // PAGE VIEW
-  ui.stack([class("w-full h-full antialiased bg-gray-50 dark:bg-gray-900 " <> theme_class)], [
+  ui.stack([class("w-full h-screen antialiased bg-gray-50 dark:bg-gray-900 " <> theme_class)], [
     // NAVBAR
     navbar(model),
     // PAGE CONTENT
-    html.section([class(blur)], [content]),
+    html.section([class("mt-0 " <> blur)], [content]),
   ])
 
 }

@@ -1,10 +1,6 @@
-import gleam/option.{type Option}
-
-import lustre/attribute.{class, href, attribute}
+import lustre/attribute.{class, href}
 import lustre/element.{text}
-import lustre/element/html.{div, button, nav}
-import lustre/element/svg
-import lustre/event.{on_click}
+import lustre/element/html.{div}
 
 pub fn desktop_menu() -> element.Element(a) {
   div([class("hidden lg:flex lg:items-center lg:w-auto lg:space-x-6 pl-8")], [
