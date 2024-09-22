@@ -25,6 +25,7 @@ import components/theme_switcher.{type Theme, Dark, Light}
 pub fn main() {
   let app = lustre.application(init, update, view)
   let assert Ok(_) = lustre.start(app, "#app", Nil)
+  Nil
 }
 
 pub type Model {
@@ -41,14 +42,21 @@ pub type Msg {
 }
 
 pub fn init(_flags) -> #(Model, Effect(Msg)) {
-  #(
+  // #(
+  //   Model(
+  //     page_content: Home,
+  //     mobile_menu: None, // Mobile menu is not clicked by default
+  //     theme: Dark, // default theme (TODO: This could be changed to system theme or local storage)
+  //   ),
+  //   modem.init(change_route),
+  // )
+  let model =
     Model(
       page_content: Home,
       mobile_menu: None, // Mobile menu is not clicked by default
       theme: Dark, // default theme (TODO: This could be changed to system theme or local storage)
-    ),
-    modem.init(change_route),
-  )
+    )
+  #(model, effect.none())
 }
 
 pub fn change_route(uri: Uri) -> Msg {

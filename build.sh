@@ -1,4 +1,4 @@
-gleam run -m lustre/dev build app --minify
+gleam run -m lustre/dev -- build app --minify
 
 # icons
 mkdir -p ./priv/static/assets
