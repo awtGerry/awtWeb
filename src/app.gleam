@@ -42,21 +42,14 @@ pub type Msg {
 }
 
 pub fn init(_flags) -> #(Model, Effect(Msg)) {
-  // #(
-  //   Model(
-  //     page_content: Home,
-  //     mobile_menu: None, // Mobile menu is not clicked by default
-  //     theme: Dark, // default theme (TODO: This could be changed to system theme or local storage)
-  //   ),
-  //   modem.init(change_route),
-  // )
-  let model =
+  #(
     Model(
       page_content: Home,
       mobile_menu: None, // Mobile menu is not clicked by default
       theme: Dark, // default theme (TODO: This could be changed to system theme or local storage)
-    )
-  #(model, effect.none())
+    ),
+    modem.init(change_route),
+  )
 }
 
 pub fn change_route(uri: Uri) -> Msg {

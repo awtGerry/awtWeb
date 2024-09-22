@@ -5,7 +5,6 @@ module.exports = {
     extend: {
       fontFamily: {
         serif: ['"Libertinus"', 'serif'],
-        // serif: ['"Merriweather"', 'serif'],
         code: ['"Libertinus"', 'sans'],
       },
     },
