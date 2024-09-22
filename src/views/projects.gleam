@@ -3,7 +3,7 @@ import lustre/element.{text}
 import lustre/element/html.{div}
 import gleam/list
 
-import assets/icons
+import icons
 
 // TODO: Add github badges
 // Example for license:
@@ -31,7 +31,7 @@ pub fn projects_view(_model) -> element.Element(a) {
         Reproducible and immutable home configuration,
         making it easy to set up my environment in any machine.
       ",
-      icon: "src/assets/png/dotfiles.png",
+      icon: "assets/png/dotfiles.png",
       link: "https://github.com/awtGerry/home-cfg",
       tech: [
         Tech(name: "Nix", icon: icons.nixos, bg: "bg-[#7e7eff]"),
@@ -52,7 +52,7 @@ pub fn projects_view(_model) -> element.Element(a) {
       description: "
         Desktop application to manage school schedules, made with Rust and Tauri.
       ",
-      icon: "src/assets/png/school_schedule.png",
+      icon: "assets/png/school_schedule.png",
       link: "https://github.com/awtGerry/school_schedule",
       tech: [
         Tech(name: "Rust", icon: icons.rustpng, bg: "bg-[#f46623]"),
@@ -69,7 +69,7 @@ pub fn projects_view(_model) -> element.Element(a) {
         Neovim configuration with a focus on speed and simplicity,
         using Lua and native LSP.
       ",
-      icon: "src/assets/png/psyduck.png",
+      icon: "assets/png/psyduck.png",
       link: "https://github.com/awtGerry/furry-nvim",
       tech: [
         Tech(name: "Lua", icon: icons.lua, bg: "bg-[#010180]"),
@@ -80,7 +80,7 @@ pub fn projects_view(_model) -> element.Element(a) {
       description: "
         OpenGL engine for 2D graphics.
       ",
-      icon: "src/assets/png/pacman.png",
+      icon: "assets/png/pacman.png",
       link: "https://github.com/awtGerry/engine",
       tech: [
         Tech(name: "Rust", icon: icons.rustpng, bg: "bg-[#f46623]"),
@@ -104,7 +104,7 @@ pub fn projects_view(_model) -> element.Element(a) {
       description: "
         Simple desktop todo list application, made with Rust and Iced.
       ",
-      icon: "src/assets/png/checkmark.png",
+      icon: "assets/png/checkmark.png",
       link: "https://github.com/awtgerry/tudus",
       tech: [
         Tech(name: "Rust", icon: icons.rustpng, bg: "bg-[#f46623]")
@@ -115,7 +115,7 @@ pub fn projects_view(_model) -> element.Element(a) {
       description: "
         Simple CRUD web application with a REST API and security features.
       ",
-      icon: "src/assets/png/padlock.png",
+      icon: "assets/png/padlock.png",
       link: "https://github.com/awtgerry/svelte_crud",
       tech: [
         Tech(name: "Svelte", icon: icons.svelte, bg: "bg-[#ff3e00]"),
@@ -131,7 +131,7 @@ pub fn projects_view(_model) -> element.Element(a) {
       description: "
         A web page typing game implementing devops practices, made with Rust and Leptos.
       ",
-      icon: "src/assets/png/keyboard.png",
+      icon: "assets/png/keyboard.png",
       link: "https://github.com/awtgerry/awords",
       tech: [
         Tech(name: "Rust", icon: icons.rustpng, bg: "bg-[#f46623]"),

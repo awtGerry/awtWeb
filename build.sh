@@ -1,7 +1,7 @@
 gleam run -m lustre/dev build app --minify
 
-cp ./index.html ./priv/static/index.html
+# icons
+mkdir -p ./priv/static/assets
+cp -r ./assets/* ./priv/static/assets/
 
-sed -i 's/awtweb\.css/awtweb\.min\.css/' ./priv/static/index.html
-sed -i 's/awtweb\.mjs/awtweb\.min\.mjs/' ./priv/static/index.html
-sed -i 's/\/priv\/static/\./' ./priv/static/index.html
+sed 's|priv/static/app.css|app.min.css|' ./index.html | sed 's|priv/static/app.mjs|app.min.mjs|' > priv/static/index.html

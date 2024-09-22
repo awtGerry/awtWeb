@@ -15,7 +15,7 @@ import lustre/event.{on_click}
 import views/home.{home}
 import views/projects.{projects_view}
 
-import assets/icons
+import icons
 
 import components/navbar.{desktop_menu}
 import components/routes.{type Route, Home, Projects, NotFound}
@@ -142,7 +142,7 @@ fn navbar(model: Model) -> element.Element(Msg) {
           [
             html.img([
               class("w-full h-full object-cover"),
-              attribute.src("src/assets/pedri.jpg")
+              attribute.src("assets/pedri.jpg")
             ])
           ]),
         ]

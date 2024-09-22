@@ -6,7 +6,7 @@ import lustre/element.{text}
 import lustre/element/html.{div, a}
 import gleam/option.{type Option, Some, None}
 
-import assets/icons
+import icons
 
 pub type Skills {
   Skill(name: String, per: Int, icon: Option(icons.Icon))

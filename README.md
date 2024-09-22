@@ -1,6 +1,5 @@
-# aweb
-My personal web portfolio made with Gleam
-
+# awtWeb
+My personal web page made with Gleam
 
 ## Gleam documentation
 
@@ -15,6 +14,11 @@ Further documentation can be found at <https://hexdocs.pm/aweb>.
 nix develop # Enter the development environment
 
 gleam run -m lustre/dev start # Run the project
-gleam test  # Run the tests
-gleam shell # Run an Erlang shell
+```
+
+## Deployment
+
+```sh
+nix develop # Enter the development environment
+./deploy.sh # Deploy the project
 ```
