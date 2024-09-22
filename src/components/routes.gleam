@@ -1,7 +1,6 @@
 pub type Route {
   Home
   Projects
-  Blog
-  MyUse
+  // Blog
   NotFound
 }

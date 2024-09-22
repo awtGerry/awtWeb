@@ -14,12 +14,11 @@ import lustre/event.{on_click}
 
 import views/home.{home}
 import views/projects.{projects_view}
-import views/myuse.{myuse}
 
 import assets/icons
 
 import components/navbar.{desktop_menu}
-import components/routes.{type Route, Home, Projects, Blog, MyUse, NotFound}
+import components/routes.{type Route, Home, Projects, NotFound}
 import components/theme_switcher.{type Theme, Dark, Light}
 
 // INIT THE APP AS A LUSTRE APPLICATION
@@ -44,14 +43,23 @@ pub type Msg {
 pub fn init(_flags) -> #(Model, Effect(Msg)) {
   #(
     Model(
-      // page_content: Home,
-      page_content: Projects, // NOTE: Change this to Home when app is ready
+      page_content: Home,
       mobile_menu: None, // Mobile menu is not clicked by default
       theme: Dark, // default theme (TODO: This could be changed to system theme or local storage)
     ),
     modem.init(change_route),
   )
 }
+
+pub fn change_route(uri: Uri) -> Msg {
+  case uri.path_segments(uri.path) {
+    ["home"] -> RouteChanged(Home)
+    ["projects"] -> RouteChanged(Projects)
+    // ["blog"] -> RouteChanged(Blog)
+    _ -> RouteChanged(NotFound)
+  }
+}
+
 
 pub fn update(model: Model, msg: Msg) -> #(Model, Effect(Msg)) {
   case msg {
@@ -70,16 +78,6 @@ pub fn update(model: Model, msg: Msg) -> #(Model, Effect(Msg)) {
       let model = Model(..model, theme: theme)
       #(model, effect.none())
     }
-  }
-}
-
-pub fn change_route(uri: Uri) -> Msg {
-  case uri.path_segments(uri.path) {
-    ["home"] -> RouteChanged(Home)
-    ["projects"] -> RouteChanged(Projects)
-    ["blog"] -> RouteChanged(Blog)
-    ["myuse"] -> RouteChanged(MyUse)
-    _ -> RouteChanged(NotFound)
   }
 }
 
@@ -102,8 +100,7 @@ pub fn view(model: Model) -> Element(Msg) {
   let content = case model.page_content {
     Home -> home(model)
     Projects -> projects_view(model)
-    Blog -> text("Blog")
-    MyUse -> myuse(model)
+    // Blog -> text("Blog")
     NotFound -> text("404")
   }
 
@@ -145,7 +142,7 @@ fn navbar(model: Model) -> element.Element(Msg) {
           [
             html.img([
               class("w-full h-full object-cover"),
-              attribute.src("https://avatars.githubusercontent.com/u/84054959?v=4")
+              attribute.src("src/assets/pedri.jpg")
             ])
           ]),
         ]
@@ -203,22 +200,14 @@ pub fn hamburger_menu(state: Option(Int)) -> element.Element(Msg) {
             ],
             [text("Projects")],
           ),
-          html.a(
-            [
-              class("font-serif text-gray-600 dark:text-stone-100 hover:text-emerald-400 dark:hover:text-emerald-300 transition-colors duration-200 ease-in-out py-2 w-full text-center"),
-              href("/blog"),
-              on_click(hamburger_clicked(1))
-            ],
-            [text("Blog")],
-          ),
-          html.a(
-            [
-              class("font-serif text-gray-600 dark:text-stone-100 hover:text-emerald-400 dark:hover:text-emerald-300 transition-colors duration-200 ease-in-out py-2 w-full text-center"),
-              href("/myuse"),
-              on_click(hamburger_clicked(1))
-            ],
-            [text("My use")],
-          ),
+          // html.a(
+          //   [
+          //     class("font-serif text-gray-600 dark:text-stone-100 hover:text-emerald-400 dark:hover:text-emerald-300 transition-colors duration-200 ease-in-out py-2 w-full text-center"),
+          //     href("/blog"),
+          //     on_click(hamburger_clicked(1))
+          //   ],
+          //   [text("Blog")],
+          // ),
         ])
       ])
     }
@@ -272,7 +261,7 @@ fn theme_view(theme: Theme) -> element.Element(Msg) {
         class("
           inline-flex items-center p-2 w-10 h-10 justify-center text-sm text-gray-500 dark:text-gray-400
           hover:text-emerald-400 dark:hover:text-emerald-300
-          rounded-lg focus:outline-none focus:ring-2 focus:ring-gray-200 dark:focus:ring-gray-600
+          rounded-lg focus:outline-none
           transition-colors duration-200 ease-in-out
         "),
         attribute("aria-controls", "navbar-language"),

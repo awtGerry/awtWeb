@@ -5,6 +5,16 @@ import gleam/list
 
 import assets/icons
 
+// TODO: Add github badges
+// Example for license:
+// html.a([href("https://github.com/awtGerry/" <> project.name <> "/blob/main/LICENSE")],
+// [
+//   html.img([
+//     class("w-6 h-6 ml-2"),
+//     attribute.src("https://img.shields.io/crates/l/rseip.svg")
+//   ])
+// ]),
+
 pub type Project {
   Project(name: String, description: String, icon: String, link: String, tech: List(Tech))
 }
@@ -40,9 +50,7 @@ pub fn projects_view(_model) -> element.Element(a) {
     Project(
       name: "School Schedule",
       description: "
-        My graduation project, a desktop application to manage school schedules,
-        with IA to help on the decision-making process, saving time and resources
-        for schools.
+        Desktop application to manage school schedules, made with Rust and Tauri.
       ",
       icon: "src/assets/png/school_schedule.png",
       link: "https://github.com/awtGerry/school_schedule",
@@ -50,14 +58,16 @@ pub fn projects_view(_model) -> element.Element(a) {
         Tech(name: "Rust", icon: icons.rustpng, bg: "bg-[#f46623]"),
         Tech(name: "Tauri", icon: icons.tauri, bg: "bg-[#ffc131]"),
         Tech(name: "Svelte", icon: icons.svelte, bg: "bg-[#ff3e00]"),
-        Tech(name: "CSS", icon: icons.css, bg: "bg-[#264de4]"),
+        Tech(name: "TypeScript", icon: icons.typescript, bg: "bg-[#007acc]"),
+        Tech(name: "Sass", icon: icons.sass, bg: "bg-[#cc6699]"),
+        Tech(name: "SQLite", icon: icons.sqlite, bg: "bg-[#003b57]"),
       ]
     ),
     Project(
       name: "furry-nvim",
       description: "
         Neovim configuration with a focus on speed and simplicity,
-        using Lua and the native LSP.
+        using Lua and native LSP.
       ",
       icon: "src/assets/png/psyduck.png",
       link: "https://github.com/awtGerry/furry-nvim",
@@ -76,6 +86,62 @@ pub fn projects_view(_model) -> element.Element(a) {
         Tech(name: "Rust", icon: icons.rustpng, bg: "bg-[#f46623]"),
       ]
     ),
+    Project(
+      name: "La Tropicana",
+      description: "
+        A mobile application for a fictional restaurant, made with Android Studio.
+      ",
+      icon: "https://raw.githubusercontent.com/ocurrentduke1/LaTropicana/refs/heads/master/app/src/main/res/mipmap-mdpi/ic_launcher_foreground.png",
+      link: "https://github.com/ocurrentduke1/LaTropicana",
+      tech: [
+        Tech(name: "Java", icon: icons.javapng, bg: "bg-[#de0a17]"),
+        Tech(name: "Android", icon: icons.android, bg: "bg-[#3ddc84]"),
+        Tech(name: "SQLite", icon: icons.sqlite, bg: "bg-[#003b57]"),
+      ]
+    ),
+    Project(
+      name: "tudus",
+      description: "
+        Simple desktop todo list application, made with Rust and Iced.
+      ",
+      icon: "src/assets/png/checkmark.png",
+      link: "https://github.com/awtgerry/tudus",
+      tech: [
+        Tech(name: "Rust", icon: icons.rustpng, bg: "bg-[#f46623]")
+      ]
+    ),
+    Project(
+      name: "crud",
+      description: "
+        Simple CRUD web application with a REST API and security features.
+      ",
+      icon: "src/assets/png/padlock.png",
+      link: "https://github.com/awtgerry/svelte_crud",
+      tech: [
+        Tech(name: "Svelte", icon: icons.svelte, bg: "bg-[#ff3e00]"),
+        Tech(name: "TypeScript", icon: icons.typescript, bg: "bg-[#007acc]"),
+        Tech(name: "CSS", icon: icons.css, bg: "bg-[#00b4b6]"),
+        Tech(name: "Node.js", icon: icons.nodejs, bg: "bg-[#8cc84b]"),
+        Tech(name: "Express", icon: icons.express, bg: "bg-[#353535]"),
+        Tech(name: "SQLite", icon: icons.sqlite, bg: "bg-[#003b57]"),
+      ]
+    ),
+    Project(
+      name: "awords",
+      description: "
+        A web page typing game implementing devops practices, made with Rust and Leptos.
+      ",
+      icon: "src/assets/png/keyboard.png",
+      link: "https://github.com/awtgerry/awords",
+      tech: [
+        Tech(name: "Rust", icon: icons.rustpng, bg: "bg-[#f46623]"),
+        Tech(name: "Docker", icon: icons.dockerpng, bg: "bg-[#00084D]"),
+        Tech(name: "Tailwind", icon: icons.tailwindcss, bg: "bg-[#00b4b6]"),
+        Tech(name: "Github Actions", icon: icons.github, bg: "bg-[#181717]"),
+        Tech(name: "Google Cloud", icon: icons.gcloud, bg: "bg-[#4285F4]"),
+        Tech(name: "MySQL", icon: icons.mysql, bg: "bg-[#005E86]"),
+      ]
+    ),
   ]
 
   div([class("w-full h-full text-lg")], [
@@ -90,6 +156,7 @@ fn project_view(projects: List(Project)) -> List(element.Element(a)) {
   list.map(projects, fn(project) {
     let img_css = case project.name {
       "School Schedule" -> "w-24 h-20"
+      "tudus" -> "w-24 h-24"
       _ -> "w-24 h-24"
     }
     div([class("flex flex-col lg:flex-row items-center justify-center align-center mb-4 lg:mb-8")],
@@ -148,6 +215,7 @@ fn project_view(projects: List(Project)) -> List(element.Element(a)) {
             let css = case tech.name {
               "Tailwind" -> "w-4 h-2.5"
               "Rust" -> "w-6 h-4"
+              "Docker" -> "w-5 h-4"
               _ -> "w-4 h-4"
             }
             div([class("relative flex flex-row px-2 py-1 gap-x-2 rounded-lg items-center " <> tech.bg <> " bg-opacity-60 dark:bg-opacity-50")],

@@ -1,7 +1,7 @@
 import gleam/list
 import gleam/int
 import lustre/element/svg
-import lustre/attribute.{class, attribute}
+import lustre/attribute.{class, attribute, src}
 import lustre/element.{text}
 import lustre/element/html.{div, a}
 import gleam/option.{type Option, Some, None}
@@ -22,16 +22,16 @@ pub fn home(_model) -> element.Element(a) {
       div([class("container mx-auto px-6 py-16")],
       [
         html.h2([class("text-3xl font-bold text-gray-700 dark:text-stone-100")], [text("About Me")]),
-        html.p([class("text-gray-700 dark:text-stone-200 pt-4")],
+        html.p([class("text-base text-gray-700 dark:text-stone-200 pt-4")],
         [
           text("
-            First of all I love my father, mother and sisters and
+            First of all I love my father, mother and sisters
             I thank god every day for having them in my life. They are my pillars and without them
             I wouldn't be the person I am today.
           "),
         ]),
         html.span([class("text-xl flex text-gray-700 dark:text-stone-200 pt-8")], [text("Things that i enjoy:")]),
-        html.ul([class("text-gray-700 dark:text-stone-200 pt-4 list-disc text-lg")],
+        html.ul([class("text-base text-gray-700 dark:text-stone-200 pt-4 list-disc")],
         [
           html.li([], [text("🖥️ Technology")]),
           html.li([], [text("⚽ Sports")]),
@@ -49,28 +49,59 @@ pub fn home(_model) -> element.Element(a) {
             div([class("mb-2.5")], [
               html.span([class("text-gray-700 dark:text-stone-300 block mb-2.5 ml-1 font-bold")], [text("Programming Languages")]),
               html.div([class("overflow-hidden")], chart([
-                Skill("Rust", 70, Some(icons.rust)),
-                Skill("Java", 65, Some(icons.java)),
+                Skill("Rust", 65, Some(icons.rust)),
+                Skill("Java", 60, Some(icons.java)),
                 Skill("C/C++", 60, Some(icons.c)),
-                Skill("JS/TS", 55, Some(icons.js)),
-                Skill("Python", 30, Some(icons.python)),
+                Skill("JS/TS", 50, Some(icons.js)),
+                Skill("Python", 25, Some(icons.python)),
               ])),
             ]),
             div([class("")], [
               html.span([class("text-gray-700 dark:text-stone-300 block mb-2.5 ml-1 font-bold")], [text("Backend and Productivity")]),
               html.div([class("overflow-hidden")], chart([
                 Skill("Linux", 80, None),
-                Skill("Git + Github", 65, None),
-                Skill("MySQL", 55, None),
-                Skill("Latex", 50, None),
-                Skill("Markdown", 50, None),
-                Skill("Docker", 25, None),
-                Skill("AWS", 20, None),
+                Skill("Git + Github", 75, None),
+                Skill("Latex", 58, None),
+                Skill("Markdown", 55, None),
+                Skill("MySQL", 50, None),
+                Skill("Docker", 25, Some(icons.docker)),
               ])),
             ]),
           ]),
         ])
       ]),
+      // OTHER SKILLS
+      // div([class("container mx-auto px-6")],
+      // [
+      //   html.h2([class("text-2xl font-bold text-gray-700 dark:text-stone-100 mt-4 mb-2")], [text("Other things I know")]),
+      //   html.span([class("text-gray-700 dark:text-stone-200 block mb-2.5 font-bold")], [text("Web tech")]),
+      //   div([class("flex flex-wrap gap-4")],
+      //   [
+      //     create_img("https://img.shields.io/badge/HTML5-E34F26?logo=html5&logoColor=fff&style=flat"),
+      //     create_img("https://img.shields.io/badge/CSS3-1572B6?logo=css3&logoColor=fff&style=flat"),
+      //     create_img("https://img.shields.io/badge/NextJS-000?logo=next.js&logoColor=fff&style=flat"),
+      //     create_img("https://img.shields.io/badge/ExpressJS-000?logo=express&logoColor=fff&style=flat"),
+      //     create_img("https://img.shields.io/badge/React-61DAFB?logo=react&logoColor=000&style=flat"),
+      //     create_img("https://img.shields.io/badge/Svelte-FF3E00?logo=svelte&logoColor=fff&style=flat"),
+      //     create_img("https://img.shields.io/badge/Sass-C69?logo=sass&logoColor=fff&style=flat"),
+      //     create_img("https://img.shields.io/badge/TailwindCSS-38B2AC?logo=tailwind-css&logoColor=fff&style=flat"),
+      //     create_img("https://img.shields.io/badge/Bootstrap-7952B3?logo=bootstrap&logoColor=fff&style=flat"),
+      //   ]),
+      //   html.span([class("text-gray-700 dark:text-stone-200 block mb-2.5 font-bold mt-4")], [text("Tools")]),
+      //   div([class("flex flex-wrap gap-4")],
+      //   [
+      //     create_img("https://img.shields.io/badge/Android-3DDC84?logo=android&logoColor=fff&style=flat"),
+      //     create_img("https://img.shields.io/badge/Amazon%20Web%20Services-232F3E?logo=amazonwebservices&logoColor=fff&style=flat"),
+      //     create_img("https://img.shields.io/badge/Google%20Cloud-4285F4?logo=googlecloud&logoColor=fff&style=flat"),
+      //     create_img("https://img.shields.io/badge/Bash-4EAA25?logo=gnu-bash&logoColor=fff&style=flat"),
+      //     create_img("https://img.shields.io/badge/NixOS-5277C3?logo=nixos&logoColor=fff&style=flat"),
+      //     create_img("https://img.shields.io/badge/Linux-FCC624?logo=linux&logoColor=000&style=flat"),
+      //     create_img("https://img.shields.io/badge/CentOS-262577?logo=centos&logoColor=fff&style=flat"),
+      //     create_img("https://img.shields.io/badge/Vim-019733?logo=vim&logoColor=fff&style=flat"),
+      //     create_img("https://img.shields.io/badge/GIMP-5C5543?logo=gimp&logoColor=fff&style=flat"),
+      //     create_img("https://img.shields.io/badge/Figma-F24E1E?logo=figma&logoColor=fff&style=flat"),
+      //   ]),
+      // ]),
     ]),
   ])
 }
@@ -90,7 +121,7 @@ fn hero() -> element.Element(a) {
         [
           text("
             I am a 24 year old software engineer based in Jalisco, Mexico.
-            I am passionate about technology and I love learning new things.
+            I am passionate about technology and eager to learn new things.
           "),
         ]),
       ]),
@@ -125,6 +156,11 @@ fn create_icon(ref: String, view_box: String, svg_path: String) -> element.Eleme
   ])
 }
 
+fn create_img(ref: String) -> element.Element(a) {
+  let css: String = "object-cover h-6"
+  html.img([class(css), src(ref)])
+}
+
 fn mobile_view() -> element.Element(a) {
   // MOBILE IMAGE (TOP OF TEXT)
   div([class("flex flex-col justify-center items-center mb-8 lg:mb-0 lg:hidden")],
@@ -134,7 +170,7 @@ fn mobile_view() -> element.Element(a) {
     [
       html.img([
         class("w-full h-full object-cover"),
-        attribute.src("https://pbs.twimg.com/profile_images/1752515582665068544/3UsnVSp5_400x400.jpg")
+        src("https://pbs.twimg.com/profile_images/1752515582665068544/3UsnVSp5_400x400.jpg")
       ])
     ]),
     // Contact icons:
@@ -160,11 +196,11 @@ fn desktop_view() -> element.Element(a) {
   div([class("flex flex-col justify-center items-center lg:w-1/2 hidden lg:flex")],
   [
     // Image for desktop:
-    div([class("w-80 h-80 overflow-hidden")],
+    div([class("w-80 h-80 overflow-hidden rounded-sm")],
     [
       html.img([
         class("w-full h-full object-cover lg:block hidden"),
-        attribute.src("https://pbs.twimg.com/profile_images/1752515582665068544/3UsnVSp5_400x400.jpg")
+        src("https://pbs.twimg.com/profile_images/1752515582665068544/3UsnVSp5_400x400.jpg")
       ])
     ]),
     // Contact icons:
