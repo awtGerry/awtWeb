@@ -156,10 +156,11 @@ fn create_icon(ref: String, view_box: String, svg_path: String) -> element.Eleme
   ])
 }
 
-fn create_img(ref: String) -> element.Element(a) {
-  let css: String = "object-cover h-6"
-  html.img([class(css), src(ref)])
-}
+// NOTE: In case I deside to use images on Other Skills
+// fn create_img(ref: String) -> element.Element(a) {
+//   let css: String = "object-cover h-6"
+//   html.img([class(css), src(ref)])
+// }
 
 fn mobile_view() -> element.Element(a) {
   // MOBILE IMAGE (TOP OF TEXT)
