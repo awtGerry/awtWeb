@@ -1,4 +1,5 @@
 import gleam/option.{type Option, None, Some}
+import gleam/io
 
 import lustre
 import lustre/ui
@@ -53,10 +54,11 @@ pub fn init(_flags) -> #(Model, Effect(Msg)) {
 }
 
 pub fn change_route(uri: Uri) -> Msg {
+  io.debug(uri)
   case uri.path_segments(uri.path) {
-    ["home"] -> RouteChanged(Home)
-    ["projects"] -> RouteChanged(Projects)
-    // ["blog"] -> RouteChanged(Blog)
+    ["awtWeb"] -> RouteChanged(Home)
+    ["awtWeb", "home"] -> RouteChanged(Home)
+    ["awtWeb", "projects"] -> RouteChanged(Projects)
     _ -> RouteChanged(NotFound)
   }
 }
@@ -136,7 +138,7 @@ fn navbar(model: Model) -> element.Element(Msg) {
             text-2xl hover:text-cyan-600 dark:hover:text-stone-50
             transition-colors duration-200 ease-in-out
           "),
-          href("/home")
+          href("/awtWeb/home")
         ],
         [
           div([class("w-16 h-16 rounded-full overflow-hidden")],
@@ -188,7 +190,7 @@ pub fn hamburger_menu(state: Option(Int)) -> element.Element(Msg) {
           html.a(
             [
               class("font-serif text-gray-600 dark:text-stone-100 hover:text-emerald-400 dark:hover:text-emerald-300 transition-colors duration-200 ease-in-out py-2 w-full text-center"),
-              href("/home"),
+              href("awtWeb/home"),
               on_click(hamburger_clicked(1))
             ],
             [text("Home")],
@@ -196,7 +198,7 @@ pub fn hamburger_menu(state: Option(Int)) -> element.Element(Msg) {
           html.a(
             [
               class("font-serif text-gray-600 dark:text-stone-100 hover:text-emerald-400 dark:hover:text-emerald-300 transition-colors duration-200 ease-in-out py-2 w-full text-center"),
-              href("/projects"),
+              href("/awtWeb/projects"),
               on_click(hamburger_clicked(1))
             ],
             [text("Projects")],
