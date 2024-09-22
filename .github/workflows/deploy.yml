@@ -32,9 +32,9 @@ jobs:
 
       - name: Build site
         run: |
+          gleam run -m lustre/dev -- build app --minify
           mkdir -p ./priv/static/assets
           cp -r ./assets/* ./priv/static/assets/
-          gleam run -m lustre/dev -- build app --minify
           cat index.html | sed 's|priv/static/app.css|app.min.css|' | sed 's|priv/static/app.mjs|app.min.mjs|' > priv/static/index.html
 
       - name: Setup Pages
