@@ -1,0 +1,140 @@
+.geist-<uniquifier > {
+  font-family: "Geist", sans-serif;
+  font-optical-sizing: auto;
+  font-weight: <weight>;
+  font-style: normal;
+}
+
+.kodchasan-extralight {
+  font-family: "Kodchasan", sans-serif;
+  font-weight: 200;
+  font-style: normal;
+}
+
+.kodchasan-light {
+  font-family: "Kodchasan", sans-serif;
+  font-weight: 300;
+  font-style: normal;
+}
+
+.kodchasan-regular {
+  font-family: "Kodchasan", sans-serif;
+  font-weight: 400;
+  font-style: normal;
+}
+
+.kodchasan-medium {
+  font-family: "Kodchasan", sans-serif;
+  font-weight: 500;
+  font-style: normal;
+}
+
+.kodchasan-semibold {
+  font-family: "Kodchasan", sans-serif;
+  font-weight: 600;
+  font-style: normal;
+}
+
+.kodchasan-bold {
+  font-family: "Kodchasan", sans-serif;
+  font-weight: 700;
+  font-style: normal;
+}
+
+.kodchasan-extralight-italic {
+  font-family: "Kodchasan", sans-serif;
+  font-weight: 200;
+  font-style: italic;
+}
+
+.kodchasan-light-italic {
+  font-family: "Kodchasan", sans-serif;
+  font-weight: 300;
+  font-style: italic;
+}
+
+.kodchasan-regular-italic {
+  font-family: "Kodchasan", sans-serif;
+  font-weight: 400;
+  font-style: italic;
+}
+
+.kodchasan-medium-italic {
+  font-family: "Kodchasan", sans-serif;
+  font-weight: 500;
+  font-style: italic;
+}
+
+.kodchasan-semibold-italic {
+  font-family: "Kodchasan", sans-serif;
+  font-weight: 600;
+  font-style: italic;
+}
+
+.kodchasan-bold-italic {
+  font-family: "Kodchasan", sans-serif;
+  font-weight: 700;
+  font-style: italic;
+}
+
+* {
+  font-family: "Geist";
+  margin: 0 auto;
+  justify-items: center;
+  align-items: center;
+}
+
+.app-container {
+  position: fixed;
+  padding: 0;
+  margin: 0;
+
+  top: 0;
+  left: 0;
+
+  width: 100%;
+  height: 100%;
+
+  background-color: #f9fdfc; /* bg-white */
+  color: #1a2127; /* fg-white */
+}
+
+.app-container.dark {
+  background-color: #0c1110; /* bg-black */
+  color: #ebeff1; /* fg-black */
+}
+
+.navbar {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  margin: 10px;
+  height: 100px;
+  justify-items: center;
+  align-items: center;
+}
+
+.navbar .navbar__user {
+  margin: 0 auto;
+  justify-items: center;
+  align-items: center;
+}
+
+.navbar .navbar__user p {
+  font-family: "Kodchasan";
+}
+
+.navbar .navbar__links {
+  display: flex;
+  background-color: red;
+}
+
+.navbar .navbar__links a {
+  cursor: pointer;
+  margin-left: 16px;
+}
+
+.navbar .navbar__links button {
+  cursor: pointer;
+  margin-left: 16px;
+}
