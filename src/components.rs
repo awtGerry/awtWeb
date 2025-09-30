@@ -14,24 +14,40 @@ pub fn ThemeSwitcher(theme: ReadSignal<bool>, set_theme: WriteSignal<bool>) -> i
 }
 
 #[component]
-pub fn LanguagePicker(
-    theme: ReadSignal<bool>,
-    lang: ReadSignal<String>,
-    set_lang: WriteSignal<String>,
-) -> impl IntoView {
-    view! {
-        <div class="language-picker">
-            <Translate theme />
+pub fn LanguagePicker(theme: ReadSignal<bool>, set_lang: WriteSignal<String>) -> impl IntoView {
+    let (open, set_open) = signal(false);
+    let languages = vec![("en", "🇺🇸 English"), ("es", "🇲🇽 Español")];
 
-            <select
-                prop:value=move || lang.get().to_string()
-                on:change:target=move |x| {
-                    set_lang.set(x.target().value().parse().unwrap());
-                }
+    view! {
+        <div class="language__picker">
+            <button class="language__dropdown" on:click=move |_| set_open.set(!open.get())>
+                <Translate theme />
+            </button>
+
+            <Show
+                when=move || open.get()
+                fallback=|| view! { <div></div> }
             >
-                <option lang="en" value="en">"🇺🇸 English"</option>
-                <option lang="es" value="es">"🇲🇽 Español"</option>
-            </select>
+                <ul class="language__menu">
+                    {languages.iter()
+                        .map(|(code, label)| {
+                            let code = code.to_string();
+                            let label = label.to_string();
+                            view! {
+                                <li
+                                    class="dropdown__item"
+                                    on:click=move |_| {
+                                        set_lang.set(code.to_string());
+                                        set_open.set(false);
+                                    }
+                                >
+                                    {label}
+                                </li>
+                            }
+                        })
+                        .collect::<Vec<_>>()}
+                </ul>
+            </Show>
         </div>
     }
 }

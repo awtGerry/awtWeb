@@ -19,7 +19,7 @@ pub fn Navbar(
                 <div class="navbar__links__children">
                 <a>{move || t("home", &lang.get())}</a>
                 <a>{move || t("projects", &lang.get())}</a>
-                <LanguagePicker theme lang set_lang />
+                <LanguagePicker theme set_lang />
                 <ThemeSwitcher theme set_theme />
                 </div>
             </div>

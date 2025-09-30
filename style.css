@@ -5,6 +5,12 @@
   font-style: normal;
 }
 
+.nerko-one-regular {
+  font-family: "Nerko One", cursive;
+  font-weight: 400;
+  font-style: normal;
+}
+
 .kodchasan-regular {
   font-family: "Kodchasan", sans-serif;
   font-weight: 400;
@@ -17,8 +23,25 @@
   font-style: normal;
 }
 
+body {
+  /* Vars */
+  --rounded-xl: 12px;
+  --text-base: 1rem;
+  --text-lg: 1.125rem;
+  --text-xl: 1.25rem;
+
+  /* Light theme */
+  --bg-white: #f9fdfc;
+  --fg-white: #1a2127;
+
+  /* Dark theme */
+  --bg-black: #0c1110;
+  --fg-black: #ebeff1;
+}
+
 * {
   font-family: "Geist";
+  font-size: var(--text-base);
   margin: 0 auto;
   justify-items: center;
   align-items: center;
@@ -35,13 +58,13 @@
   width: 100%;
   height: 100%;
 
-  background-color: #f9fdfc; /* bg-white */
-  color: #1a2127; /* fg-white */
+  background-color: var(--bg-white);
+  color: var(--fg-white);
 }
 
 .app-container.dark {
-  background-color: #0c1110; /* bg-black */
-  color: #ebeff1; /* fg-black */
+  background-color: var(--bg-black);
+  color: var(--fg-black);
 }
 
 .navbar {
@@ -60,8 +83,9 @@
   align-items: center;
 }
 
-.navbar .navbar__user p {
-  font-family: "Kodchasan";
+.navbar__user p {
+  font-family: "Nerko One";
+  font-size: var(--text-xl);
 }
 
 .navbar .navbar__links {
@@ -74,34 +98,12 @@
 
 /* Alternative with margins */
 .navbar__links__children > * {
-  margin-right: 16px;
+  margin-right: 1rem;
+  font-size: var(--text-lg);
 }
 
 .navbar__links__children > *:last-child {
   margin-right: 0;
-}
-
-.language-picker {
-  position: relative;
-  display: inline-block;
-  background: none;
-  border: none;
-  margin-top: 4px;
-  cursor: pointer;
-  align-items: center;
-  justify-content: center;
-}
-
-.language-picker select {
-  position: absolute;
-  inset: 0; /* fill the container */
-  opacity: 0; /* hide visually */
-  cursor: pointer; /* keep it clickable */
-}
-
-.language-picker .icon {
-  font-size: 1.2rem;
-  padding: 6px;
 }
 
 .navbar button {
@@ -119,4 +121,85 @@
   cursor: pointer;
   width: 100%;
   height: 100%;
+}
+
+/* Language icon */
+.language__picker {
+  position: relative;
+  display: inline-block;
+}
+
+/* Trigger button */
+.language__dropdown {
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+}
+
+/* Dropdown list */
+.language__menu {
+  position: absolute;
+  list-style: none;
+  margin-top: 12px;
+  top: 110%;
+  right: 0;
+  min-width: 170px;
+  border: 2px solid var(--bg-white);
+  border-radius: var(--rounded-xl);
+  padding: 0.25rem 0;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  z-index: 999;
+
+  animation: dropdownBounce 0.6s ease-out forwards;
+  transform-origin: top center;
+  opacity: 0;
+  transform: translateY(-20px);
+}
+
+/* Each option */
+.dropdown__item {
+  padding: 0.6rem 1rem;
+  cursor: pointer;
+  animation: itemSlideIn 0.4s ease-out forwards;
+  opacity: 0;
+  transform: translateY(-10px);
+}
+
+.dropdown__item:hover {
+  filter: brightness(115%);
+}
+
+.dark .dropdown__item:hover {
+  filter: brightness(85%);
+}
+
+/* Keyframes for menu bounce animation */
+@keyframes dropdownBounce {
+  0% {
+    opacity: 0;
+    transform: translateY(-20px) scale(0.95);
+  }
+  50% {
+    opacity: 1;
+    transform: translateY(10px) scale(1);
+  }
+  75% {
+    transform: translateY(-5px) scale(1);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+/* Keyframes for item slide-in animation */
+@keyframes itemSlideIn {
+  0% {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
