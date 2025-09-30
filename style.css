@@ -1,3 +1,6 @@
+/* ======================= */
+/* Fonts */
+/* ======================= */
 .geist-<uniquifier > {
   font-family: "Geist", sans-serif;
   font-optical-sizing: auto;
@@ -23,8 +26,10 @@
   font-style: normal;
 }
 
+/* ======================= */
+/* Variables */
+/* ======================= */
 body {
-  /* Vars */
   --rounded-xl: 12px;
   --text-base: 1rem;
   --text-lg: 1.125rem;
@@ -43,11 +48,12 @@ body {
   font-family: "Geist";
   font-size: var(--text-base);
   margin: 0 auto;
-  justify-items: center;
-  align-items: center;
 }
 
-.app-container {
+/* ======================= */
+/* App Container */
+/* ======================= */
+.app__container {
   position: fixed;
   padding: 0;
   margin: 0;
@@ -62,11 +68,14 @@ body {
   color: var(--fg-white);
 }
 
-.app-container.dark {
+.app__container.dark {
   background-color: var(--bg-black);
   color: var(--fg-black);
 }
 
+/* ======================= */
+/* Navbar */
+/* ======================= */
 .navbar {
   display: flex;
   flex-direction: row;
@@ -99,14 +108,15 @@ body {
 /* Alternative with margins */
 .navbar__links__children > * {
   margin-right: 1rem;
-  font-size: var(--text-lg);
+  font-family: "Kodchasan";
+  font-size: var(--text-base);
 }
 
 .navbar__links__children > *:last-child {
   margin-right: 0;
 }
 
-.navbar button {
+.navbar .button__theme {
   background: none;
   border: none;
   padding: 0;
@@ -116,7 +126,7 @@ body {
   justify-content: center;
 }
 
-.button__theme svg {
+.navbar .button__theme svg {
   display: block;
   cursor: pointer;
   width: 100%;
@@ -127,6 +137,7 @@ body {
 .language__picker {
   position: relative;
   display: inline-block;
+  margin-top: 1px;
 }
 
 /* Trigger button */
@@ -156,7 +167,7 @@ body {
   transform: translateY(-20px);
 }
 
-/* Each option */
+/* Language each option */
 .dropdown__item {
   padding: 0.6rem 1rem;
   cursor: pointer;

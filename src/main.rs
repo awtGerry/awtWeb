@@ -1,19 +1,5 @@
-use leptos::prelude::*;
-
-use awtWeb::nav::Navbar;
-
-#[allow(non_snake_case)]
-#[component]
-fn App() -> impl IntoView {
-    let (theme, set_theme) = signal(true); // false = light
-    let (lang, set_lang) = signal(String::from("en"));
-
-    view! {
-        <div class="app-container" class:dark=move || theme.get() == true>
-            <Navbar theme set_theme lang set_lang />
-        </div>
-    }
-}
+use awt_web::App;
+use leptos;
 
 fn main() {
     console_error_panic_hook::set_once();

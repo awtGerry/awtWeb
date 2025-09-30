@@ -20,7 +20,7 @@ pub fn LanguagePicker(theme: ReadSignal<bool>, set_lang: WriteSignal<String>) ->
 
     view! {
         <div class="language__picker">
-            <button class="language__dropdown" on:click=move |_| set_open.set(!open.get())>
+            <button class="button__theme language__dropdown" on:click=move |_| set_open.set(!open.get())>
                 <Translate theme />
             </button>
 
@@ -49,5 +49,12 @@ pub fn LanguagePicker(theme: ReadSignal<bool>, set_lang: WriteSignal<String>) ->
                 </ul>
             </Show>
         </div>
+    }
+}
+
+#[component]
+pub fn AvatarIcon() -> impl IntoView {
+    view! {
+        <p>img</p>
     }
 }
