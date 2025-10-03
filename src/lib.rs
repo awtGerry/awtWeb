@@ -16,7 +16,7 @@ pub fn App() -> impl IntoView {
     view! {
         <div class="app__container" class:dark=move || theme.get() == true>
             <Navbar theme set_theme lang set_lang />
-            <Home />
+            <Home theme />
         </div>
     }
 }

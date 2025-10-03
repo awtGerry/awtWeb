@@ -55,6 +55,20 @@ pub fn LanguagePicker(theme: ReadSignal<bool>, set_lang: WriteSignal<String>) ->
 #[component]
 pub fn AvatarIcon() -> impl IntoView {
     view! {
-        <p>img</p>
+    <div class="avatar">
+            <svg class="progress-ring" width="84" height="84">
+            <circle
+                class="progress-ring-circle"
+                stroke="currentColor"
+                stroke-width="2"
+                fill="transparent"
+                r="40"
+                cx="42"
+                cy="42"
+            />
+        </svg>
+        <img class="default" src="public/img-user.jpg"/>
+        <img class="hover" src="public/img-pedri.jpg"/>
+    </div>
     }
 }
