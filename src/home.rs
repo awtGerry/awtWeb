@@ -1,9 +1,10 @@
 use leptos::prelude::*;
 
 use crate::components::AvatarIcon;
+use crate::utils::t;
 
 #[component]
-pub fn Home(theme: ReadSignal<bool>) -> impl IntoView {
+pub fn Home(theme: ReadSignal<bool>, lang: ReadSignal<String>) -> impl IntoView {
     view! {
         <div class="home__container">
             <div class="profile__container">
@@ -16,7 +17,6 @@ pub fn Home(theme: ReadSignal<bool>) -> impl IntoView {
                         <div class="location__info">
                             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
                                 stroke-width="1.5"
-                                // stroke="currentColor"
                                 stroke={move || if theme.get() { "#cef1eb" } else { "#0b3e38" }}
                                 class="size-6"
                             >
@@ -46,9 +46,17 @@ pub fn Home(theme: ReadSignal<bool>) -> impl IntoView {
                             <path d="M8.73072 13.6522H11.6323V23H8.73072V13.6522ZM10.1823 9C10.5151 9 10.8404 9.09883 11.1171 9.28399C11.3938 9.46915 11.6094 9.73231 11.7367 10.0402C11.864 10.3481 11.8972 10.6868 11.8322 11.0136C11.7671 11.3404 11.6067 11.6406 11.3713 11.8761C11.1359 12.1116 10.836 12.2719 10.5095 12.3367C10.1831 12.4015 9.84478 12.3679 9.53741 12.2402C9.23003 12.1124 8.9674 11.8963 8.78274 11.6191C8.59808 11.3419 8.49968 11.016 8.5 10.6828C8.50043 10.2364 8.67786 9.80833 8.9933 9.49279C9.30875 9.17725 9.73641 9 10.1823 9ZM13.4524 13.6522H16.2338V14.9356H16.2723C16.66 14.2009 17.6053 13.426 19.0168 13.426C21.9553 13.4196 22.5 15.3559 22.5 17.8665V23H19.5984V18.452C19.5984 17.3692 19.5792 15.9751 18.0908 15.9751C16.6023 15.9751 16.3492 17.1558 16.3492 18.3815V23H13.4524V13.6522Z" fill="#EBEFF1"/>
                         </svg>
 
-                </a>
-                <a class="resume__button">"Resume"</a>
+                    </a>
+                    <a class="resume__button">"Resume"</a>
+                </div>
             </div>
+            <div class="about__container">
+                <h2 class="kodchasan-bold">
+                    {move || t("about_title", &lang.get())}
+                </h2>
+                <p class="geist-regular">
+                    {move || t("about_description", &lang.get())}
+                </p>
             </div>
         </div>
     }

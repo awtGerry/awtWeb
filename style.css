@@ -1,10 +1,10 @@
 /* ======================= */
 /* Fonts */
 /* ======================= */
-.geist-<uniquifier > {
+.geist-regular {
   font-family: "Geist", sans-serif;
   font-optical-sizing: auto;
-  font-weight: <weight>;
+  font-weight: 400;
   font-style: normal;
 }
 
@@ -201,7 +201,7 @@ body {
 .home__container {
   display: flex;
   flex-direction: column;
-  justify-content: center;
+  justify-content: flex-start;
   width: 100%;
   margin-top: 10px;
 }
@@ -367,6 +367,21 @@ body {
   width: 72px;
   height: 32px;
   font-size: var(--text-sm);
+}
+
+/* ======================= */
+/* About container */
+/* ======================= */
+.about__container {
+  flex-direction: column;
+  text-align: start;
+  margin-top: 20px;
+}
+.about__container h2 {
+}
+.about__container p {
+  max-width: 600px;
+  margin-top: 6px;
 }
 
 /* ======================= */
