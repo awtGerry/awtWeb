@@ -212,7 +212,7 @@ body {
   display: flex;
   flex-direction: row;
   justify-content: space-between;
-  width: 99%;
+  width: 93%;
   height: 100%;
 }
 
@@ -232,10 +232,6 @@ body {
   margin-left: 8px;
 }
 
-.user__info h3 {
-  font-size: var(--text-lg);
-}
-
 .location__info {
   display: flex;
   flex-direction: row;
@@ -245,12 +241,20 @@ body {
 }
 
 .location__info p {
-  font-size: var(--text-sm);
+  font-size: 12px;
   color: var(--fg-white2);
 }
 .dark .location__info p {
   font-size: var(--text-sm);
   color: var(--fg-black2);
+}
+@media (min-width: 768px) {
+  .location__info {
+    margin-left: 12px;
+  }
+  .location__info p {
+    font-size: var(--text-sm);
+  }
 }
 
 .location__info svg {
@@ -258,37 +262,17 @@ body {
   height: 20px;
 }
 
-/* Avatar icon */
+/* === Mobile-first Avatar (default) === */
 .avatar {
   position: relative;
   display: inline-block;
-  width: 80px;
-  height: 80px;
+  width: 70px;
+  height: 70px;
 }
 
-/* Progress ring SVG */
+/* Hide progress ring on mobile */
 .avatar .progress-ring {
-  position: absolute;
-  top: -2px;
-  left: -2px;
-  transform: rotate(-90deg); /* Start from top */
-  pointer-events: none;
-  z-index: 10;
-}
-
-.avatar .progress-ring-circle {
-  stroke-dasharray: 251.2; /* 2 * PI * radius (2 * 3.14 * 40) */
-  stroke-dashoffset: 251.2;
-  transition: stroke-dashoffset 0.5s linear;
-  color: var(--solid-white);
-}
-
-.dark .avatar .progress-ring-circle {
-  color: var(--solid-black);
-}
-
-.avatar:hover .progress-ring-circle {
-  stroke-dashoffset: 0; /* Fill the circle */
+  display: none;
 }
 
 .avatar img {
@@ -299,11 +283,11 @@ body {
   transition: opacity 0.3s ease;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
 }
+
 .dark .avatar img {
   box-shadow: 0 -1px 40px rgba(0, 0, 0, 0.12);
 }
 
-/* Adjust the default image */
 .avatar img.default {
   object-position: 150% 16%;
 }
@@ -338,12 +322,56 @@ body {
   }
 }
 
-/* Social buttons */
-.social__info {
-  display: flex;
+/* === Larger Screens (Desktop ≥ 768px) === */
+@media (min-width: 768px) {
+  .avatar {
+    width: 80px;
+    height: 80px;
+  }
+
+  /* Enable progress ring on desktop */
+  .avatar .progress-ring {
+    display: block;
+    position: absolute;
+    top: -2px;
+    left: -2px;
+    transform: rotate(-90deg);
+    pointer-events: none;
+    z-index: 10;
+  }
+
+  .avatar .progress-ring-circle {
+    stroke-dasharray: 251.2; /* 2 * PI * 40 */
+    stroke-dashoffset: 251.2;
+    transition: stroke-dashoffset 0.5s linear;
+    color: var(--solid-white);
+  }
+
+  .dark .avatar .progress-ring-circle {
+    color: var(--solid-black);
+  }
+
+  .avatar:hover .progress-ring-circle {
+    stroke-dashoffset: 0;
+  }
 }
 
-.social__info a {
+/* Social buttons */
+.social__container {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 0.485fr));
+  gap: 2px;
+}
+/* === Larger Screens (Desktop ≥ 768px) === */
+@media (min-width: 768px) {
+  .social__container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+}
+
+.social__container a {
   display: flex;
   align-items: center;
   justify-content: center;
@@ -355,15 +383,16 @@ body {
   background-color: var(--fg-black);
   border: 2px solid var(--btn-white);
   border-radius: 100px;
+  cursor: pointer;
 }
-.dark .social__info a {
+.dark .social__container a {
   background-color: var(--fg-white);
   border: 2px solid var(--btn-black);
 }
-.social__info svg {
+.social__container svg {
   display: block;
 }
-.social__info .resume__button {
+.social__container .resume__button {
   width: 72px;
   height: 32px;
   font-size: var(--text-sm);
@@ -375,7 +404,7 @@ body {
 .about__container {
   flex-direction: column;
   text-align: start;
-  margin-top: 20px;
+  margin: 20px 8px 0px;
 }
 .about__container h2 {
 }

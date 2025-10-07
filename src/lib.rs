@@ -10,7 +10,7 @@ use leptos::prelude::*;
 #[allow(non_snake_case)]
 #[component]
 pub fn App() -> impl IntoView {
-    let (theme, set_theme) = signal(true); // false = light
+    let (theme, set_theme) = signal(false); // false = light
     let (lang, set_lang) = signal(String::from("en"));
 
     view! {
