@@ -117,7 +117,7 @@ pub fn Profile(theme: ReadSignal<bool>) -> impl IntoView {
                     </svg>
 
                 </a>
-                <a class="resume__button">"Resume"</a>
+                <a href="public/docs/cv.pdf" target="_blank" class="resume__button">"Resume"</a>
             </div>
         </div> // profile__container
     }

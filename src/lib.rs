@@ -14,9 +14,11 @@ pub fn App() -> impl IntoView {
     let (lang, set_lang) = signal(String::from("en"));
 
     view! {
-        <div class="app__container" class:dark=move || theme.get() == true>
-            <Navbar theme set_theme lang set_lang />
-            <Home theme lang />
+        <div class="app__wrapper" class:dark=move || theme.get() == true>
+            <div class="app__container" class:dark=move || theme.get() == true>
+                <Navbar theme set_theme lang set_lang />
+                <Home theme lang />
+            </div>
         </div>
     }
 }
