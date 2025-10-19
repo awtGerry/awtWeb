@@ -1,7 +1,7 @@
 use leptos::prelude::*;
 
 use crate::images::{Theme, Translate};
-use crate::utils::Project;
+use crate::projects::Project;
 use crate::utils::t;
 
 #[component]

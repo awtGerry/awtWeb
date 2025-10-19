@@ -2,8 +2,10 @@ pub mod components;
 pub mod home;
 pub mod images;
 pub mod nav;
+pub mod projects;
 pub mod utils;
 
+use crate::projects::AllProjects;
 use crate::{home::Home, nav::Navbar};
 use leptos::prelude::*;
 use leptos_router::components::*;
@@ -30,8 +32,7 @@ pub fn App() -> impl IntoView {
                         <Route
                             path=path!("/projects")
                             view=move || view! {
-                                // <Home theme=theme lang=lang />
-                                <h1>PROJECTS</h1>
+                                <AllProjects lang=lang />
                             }
                         />
                     </Routes>

@@ -17,6 +17,7 @@ pub enum Tech {
     Lua,
     Nix,
     Bash,
+    Python,
 }
 
 #[derive(Debug, Clone, PartialEq)]
@@ -72,32 +73,37 @@ impl Tech {
             Tech::Svelte => &TechData {
                 name: "Svelte",
                 svg_path: "public/icon-svelte.svg",
-                color: "#F4BC00",
+                color: "#FF3E00",
             },
             Tech::Sass => &TechData {
                 name: "Sass",
                 svg_path: "public/icon-sass.svg",
-                color: "#F4BC00",
+                color: "#EBEFF1",
             },
             Tech::Sqlite => &TechData {
                 name: "SQLite",
                 svg_path: "public/icon-sqlite.svg",
-                color: "#F4BC00",
+                color: "#001B47",
             },
             Tech::Lua => &TechData {
                 name: "Lua",
                 svg_path: "public/icon-lua.svg",
-                color: "#F4BC00",
+                color: "#EBEFF1",
             },
             Tech::Nix => &TechData {
                 name: "Nix",
                 svg_path: "public/icon-nix.svg",
-                color: "#F4BC00",
+                color: "#1B3C53",
             },
             Tech::Bash => &TechData {
                 name: "Bash",
                 svg_path: "public/icon-bash.svg",
-                color: "#F4BC00",
+                color: "#EBEFF1",
+            },
+            Tech::Python => &TechData {
+                name: "Python",
+                svg_path: "public/icon-python.svg",
+                color: "#EBEFF1",
             },
         }
     }
@@ -125,72 +131,6 @@ impl Tech {
             Tech::CSS,
             Tech::Git,
             Tech::Linux,
-        ]
-    }
-}
-
-#[derive(Debug, Clone)]
-pub struct Project {
-    pub name: String,
-    pub url: String,
-    pub description_key: String,
-    pub image: String, //path
-    pub color: String,
-    pub languages: Vec<Tech>,
-    pub showcase: bool,
-}
-
-impl Project {
-    pub fn new(
-        name: impl Into<String>,
-        url: impl Into<String>,
-        description_key: impl Into<String>,
-        image: impl Into<String>,
-        color: impl Into<String>,
-        languages: Vec<Tech>,
-        showcase: bool,
-    ) -> Self {
-        Self {
-            name: name.into(),
-            url: url.into(),
-            description_key: description_key.into(),
-            image: image.into(),
-            color: color.into(),
-            languages,
-            showcase,
-        }
-    }
-
-    pub fn language_data(&self) -> Vec<&'static TechData> {
-        self.languages.iter().map(|lang| lang.data()).collect()
-    }
-
-    pub fn create_projects() -> Vec<Project> {
-        vec![
-            Project::new(
-                "home-cfg",
-                "https://github.com/awtgerry/home-cfg",
-                "home-cfg",
-                "public/projects/home_cfg.png",
-                "#3D0000",
-                vec![Tech::Nix, Tech::Bash, Tech::Lua, Tech::CSS],
-                true,
-            ),
-            Project::new(
-                "School Roster",
-                "https://schoolroster.netlify.app/",
-                "school-roster",
-                "public/projects/school_roster.jpg",
-                "#11999E",
-                vec![
-                    Tech::Svelte,
-                    Tech::Rust,
-                    Tech::TypeScript,
-                    Tech::Sass,
-                    Tech::Sqlite,
-                ],
-                true,
-            ),
         ]
     }
 }
@@ -251,6 +191,29 @@ static TRANSLATIONS: Lazy<HashMap<&'static str, HashMap<&'static str, &'static s
                     (
                         "es",
                         "Configuración de sistema reproducible e inmutable, facilitando la creación y montaje de un entorno en cualquier máquina.",
+                    ),
+                ]),
+            ),
+            (
+                "engine",
+                HashMap::from([
+                    (
+                        "en",
+                        "2D/3D game engine made with rust to explore computer graphics.",
+                    ),
+                    (
+                        "es",
+                        "Motor de juego 2D/3D hecho con rust para explorar graficas por computadora.",
+                    ),
+                ]),
+            ),
+            (
+                "baseball-da",
+                HashMap::from([
+                    ("en", "Baseball game analysis with a prediction model."),
+                    (
+                        "es",
+                        "Analisis de encuentros de beisbol con modelo de predicciones.",
                     ),
                 ]),
             ),

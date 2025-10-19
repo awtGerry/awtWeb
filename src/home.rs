@@ -1,7 +1,7 @@
 use leptos::prelude::*;
 
 use crate::components::{Profile, ShowcaseProject};
-use crate::utils::Project;
+use crate::projects::Project;
 use crate::utils::Tech;
 use crate::utils::t;
 
@@ -48,7 +48,7 @@ pub fn Home(theme: ReadSignal<bool>, lang: ReadSignal<String>) -> impl IntoView 
                     <p class="kodchasan-bold">
                         {move || t("projects_showcase", &lang.get())}
                     </p>
-                    <div class="project__all">
+                    <a href="/projects" class="project__all">
                         <p class="kodchasan-bold">
                             {move || t("projects_all", &lang.get())}
                         </p>
@@ -63,7 +63,7 @@ pub fn Home(theme: ReadSignal<bool>, lang: ReadSignal<String>) -> impl IntoView 
                             class="feather feather-chevron-right">
                             <polyline points="9 18 15 12 9 6"></polyline>
                         </svg>
-                    </div>
+                    </a>
                 </div>
 
                 <div class="project__items">
