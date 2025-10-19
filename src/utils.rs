@@ -168,6 +168,15 @@ impl Project {
     pub fn create_projects() -> Vec<Project> {
         vec![
             Project::new(
+                "home-cfg",
+                "https://github.com/awtgerry/home-cfg",
+                "home-cfg",
+                "public/projects/home_cfg.png",
+                "#3D0000",
+                vec![Tech::Nix, Tech::Bash, Tech::Lua, Tech::CSS],
+                true,
+            ),
+            Project::new(
                 "School Roster",
                 "https://schoolroster.netlify.app/",
                 "school-roster",
@@ -180,15 +189,6 @@ impl Project {
                     Tech::Sass,
                     Tech::Sqlite,
                 ],
-                true,
-            ),
-            Project::new(
-                "home-cfg",
-                "https://github.com/awtgerry/home-cfg",
-                "home-cfg",
-                "public/projects/home_cfg.png",
-                "#3D0000",
-                vec![Tech::Nix, Tech::Bash, Tech::Lua, Tech::CSS],
                 true,
             ),
         ]

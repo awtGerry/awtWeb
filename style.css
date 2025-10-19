@@ -164,6 +164,14 @@ body {
   font-size: var(--text-base);
 }
 
+.navbar__links__children a {
+  text-decoration: none;
+  color: var(--fg-white);
+}
+.dark .navbar__links__children a {
+  color: var(--fg-black);
+}
+
 .navbar__links__children > *:last-child {
   margin-right: 0;
 }
@@ -407,6 +415,15 @@ body {
   grid-template-columns: repeat(3, minmax(0, 0.485fr));
   gap: 2px;
 }
+
+.social__container a {
+  text-decoration: none;
+  color: var(--fg-white);
+}
+.dark .social__container a {
+  color: var(--fg-black);
+}
+
 /* === Larger Screens (Desktop ≥ 768px) === */
 @media (min-width: 768px) {
   .social__container {

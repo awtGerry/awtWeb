@@ -28,7 +28,15 @@ pub fn Home(theme: ReadSignal<bool>, lang: ReadSignal<String>) -> impl IntoView 
                     let lang_name = x.data().name.to_string();
                     view! {
                         <div class="lang__item">
-                            <img class="default" src=x.data().svg_path.to_string() />
+                            <img
+                                class="default"
+                                src=move || {
+                                    let default_path = String::from(x.data().svg_path.to_string());
+                                    let theme_path = if theme.get() == true { "-dark.svg" } else { "-light.svg" };
+
+                                    default_path + theme_path
+                                }
+                            />
                             <p class="kodchasan-regular">{lang_name}</p>
                         </div>
                     }
