@@ -283,11 +283,11 @@ static TRANSLATIONS: Lazy<HashMap<&'static str, HashMap<&'static str, &'static s
                 HashMap::from([
                     (
                         "en",
-                        "K-means clustering representation using my rust engine.",
+                        "Mobile application for Android that allows bar customers to place orders from their devices, which are received and managed in real time by the administrator.",
                     ),
                     (
                         "es",
-                        "Representacion de agrupamiento K-means usando mi motor hecho con rust.",
+                        "Aplicación móvil para Android que permite a los clientes de un bar realizar pedidos desde sus dispositivos, los cuales son recibidos y gestionados en tiempo real por el administrador.",
                     ),
                 ]),
             ),
