@@ -139,7 +139,10 @@ pub fn ShowcaseProject(project: Project, lang: ReadSignal<String>) -> impl IntoV
                     <div class="project__item__langs">
                         {project.languages.iter().map(|lang| {
                             view! {
-                                <div class="project__lang__item" style:background=lang.color().to_string()>
+                                <div class="project__lang__item"
+                                    style:background=lang.color().to_string()
+                                    title=lang.name().to_string()
+                                >
                                     <img src=lang.svg_path().to_string() />
                                 </div>
                             }

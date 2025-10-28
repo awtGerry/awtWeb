@@ -18,6 +18,8 @@ pub enum Tech {
     Nix,
     Bash,
     Python,
+    AWS,
+    Android,
 }
 
 #[derive(Debug, Clone, PartialEq)]
@@ -83,7 +85,7 @@ impl Tech {
             Tech::Sqlite => &TechData {
                 name: "SQLite",
                 svg_path: "public/icon-sqlite.svg",
-                color: "#001B47",
+                color: "#EBEFF1",
             },
             Tech::Lua => &TechData {
                 name: "Lua",
@@ -104,6 +106,16 @@ impl Tech {
                 name: "Python",
                 svg_path: "public/icon-python.svg",
                 color: "#EBEFF1",
+            },
+            Tech::AWS => &TechData {
+                name: "AWS",
+                svg_path: "public/icon-aws.svg",
+                color: "#FF3300",
+            },
+            Tech::Android => &TechData {
+                name: "Android Studio",
+                svg_path: "public/icon-android.svg",
+                color: "#40513B",
             },
         }
     }
@@ -214,6 +226,68 @@ static TRANSLATIONS: Lazy<HashMap<&'static str, HashMap<&'static str, &'static s
                     (
                         "es",
                         "Analisis de encuentros de beisbol con modelo de predicciones.",
+                    ),
+                ]),
+            ),
+            (
+                "furry-nvim",
+                HashMap::from([
+                    (
+                        "en",
+                        "Accessible, fast and easy to run configuration for neovim.",
+                    ),
+                    (
+                        "es",
+                        "Configuración accesible, rápida y sencilla de ejecutar para editor neovim.",
+                    ),
+                ]),
+            ),
+            (
+                "embedded-iot",
+                HashMap::from([
+                    (
+                        "en",
+                        "Arduino sensors with AWS conection (server) for a small weather app (client) and a trained model.",
+                    ),
+                    (
+                        "es",
+                        "Sensores de Arduino con conexion a AWS (servidor) para una pequeña aplicación meteorológica (cliente) y un modelo entrenado.",
+                    ),
+                ]),
+            ),
+            (
+                "mybar",
+                HashMap::from([
+                    ("en", "Status bar for X used by my systems on Linux."),
+                    (
+                        "es",
+                        "Barra de estado para X utilizada en mis sistemas Linux.",
+                    ),
+                ]),
+            ),
+            (
+                "k-means",
+                HashMap::from([
+                    (
+                        "en",
+                        "K-means clustering representation using my rust engine.",
+                    ),
+                    (
+                        "es",
+                        "Representacion de agrupamiento K-means usando mi motor hecho con rust.",
+                    ),
+                ]),
+            ),
+            (
+                "tropicana",
+                HashMap::from([
+                    (
+                        "en",
+                        "K-means clustering representation using my rust engine.",
+                    ),
+                    (
+                        "es",
+                        "Representacion de agrupamiento K-means usando mi motor hecho con rust.",
                     ),
                 ]),
             ),
