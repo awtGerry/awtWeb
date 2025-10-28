@@ -1,4 +1,5 @@
 use leptos::prelude::*;
+use leptos_router::components::A;
 
 use crate::components::{LanguagePicker, ThemeSwitcher};
 use crate::utils::t;
@@ -11,18 +12,18 @@ pub fn Navbar(
     set_lang: WriteSignal<String>,
 ) -> impl IntoView {
     view! {
-        <div class="navbar">
+        <nav class="navbar">
             <div class="navbar__user">
                 <p>"AWTGERRY"</p>
             </div>
             <div class="navbar__links">
                 <div class="navbar__links__children">
-                    <a href="/">{move || t("home", &lang.get())}</a>
-                    <a href="/projects">{move || t("projects", &lang.get())}</a>
+                    <A href="">{move || t("home", &lang.get())}</A>
+                    <A href="projects">{move || t("projects", &lang.get())}</A>
                     <LanguagePicker theme set_lang />
                     <ThemeSwitcher theme set_theme />
                 </div>
             </div>
-        </div>
+        </nav>
     }
 }

@@ -48,7 +48,7 @@ pub fn Home(theme: ReadSignal<bool>, lang: ReadSignal<String>) -> impl IntoView 
                     <p class="kodchasan-bold">
                         {move || t("projects_showcase", &lang.get())}
                     </p>
-                    <a href="/projects" class="project__all">
+                    <a href="projects" class="project__all">
                         <p class="kodchasan-bold">
                             {move || t("projects_all", &lang.get())}
                         </p>
