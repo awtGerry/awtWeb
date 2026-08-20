@@ -1,0 +1,22 @@
+{% import "macros/nav.html" as nav %} {% import "macros/footer.html" as footer
+%} {{ nav::render() }}
+<!DOCTYPE html>
+<html lang="{{ lang }}">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>{% block title %}{{ config.title }}{% endblock %}</title>
+    <link rel="stylesheet" href="{{ get_url(path='style.css') }}" />
+    <link
+      rel="alternate"
+      type="application/rss+xml"
+      title="RSS"
+      href="{{ get_url(path='rss.xml') }}"
+    />
+  </head>
+  <body>
+    <main>{% block content %}{% endblock %}</main>
+
+    {{ footer::render() }}
+  </body>
+</html>

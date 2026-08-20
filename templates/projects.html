@@ -1,0 +1,13 @@
+{% extends "base.html" %} {% import "macros/project_card.html" as project_card
+%} {% block content %} {% set sections = config.extra.sections[lang] %}
+
+<header class="page-header">
+  <h1>{{ sections.selected_work }}</h1>
+</header>
+
+<section class="section">
+  {% for page in section.pages %} {{ project_card::render(page=page) }} {%
+  endfor %}
+</section>
+
+{% endblock %}

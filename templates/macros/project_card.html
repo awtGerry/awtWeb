@@ -1,0 +1,21 @@
+{% macro render(page) %}
+<div class="project-item">
+  <div class="project-header">
+    <a href="{{ page.permalink }}" class="project-name">{{ page.title }}</a>
+    <span class="ai-label">{{ page.extra.ai_usage }}</span>
+    {% if page.extra.type %}
+    <span class="ai-label">{{ page.extra.type }}</span>
+    {% endif %}
+  </div>
+
+  <p class="project-desc">{{ page.description }}</p>
+
+  <div class="tag-row">
+    {% for lang in page.extra.languages %}
+    <span class="tag tag-lang">{{ lang }}</span>
+    {% endfor %}
+    <span class="tag tag-domain">{{ page.extra.domain }}</span>
+    <span class="tag tag-status">{{ page.extra.status }}</span>
+  </div>
+</div>
+{% endmacro %}

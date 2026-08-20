@@ -1,0 +1,25 @@
+{% extends "base.html" %} {% block content %} {% set sections =
+config.extra.sections[lang] %}
+
+<header class="page-header">
+  <h1>{{ sections.latest_writing }}</h1>
+</header>
+
+<section class="section">
+  {% for page in section.pages %}
+  <article class="blog-preview">
+    <div class="blog-preview-header">
+      <a href="{{ page.permalink }}" class="blog-title">{{ page.title }}</a>
+      <time>{{ page.date | date(format="%b %Y") }}</time>
+    </div>
+    <p class="blog-excerpt">{{ page.description }}</p>
+    <div class="blog-tags">
+      {% for tag in page.taxonomies.tags %}
+      <span>#{{ tag }}</span>
+      {% endfor %}
+    </div>
+  </article>
+  {% endfor %}
+</section>
+
+{% endblock %}

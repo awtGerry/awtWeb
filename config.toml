@@ -1,0 +1,77 @@
+# Metadata
+base_url = "https://awtgerry.com"
+default_language = "en"
+
+# Buid settings
+compile_sass = true
+# Whether to build a search index to be used later on by a JavaScript library
+build_search_index = true
+minify_html = true
+
+# Taxonomies (shared across languages)
+taxonomies = [
+    { name = "tags", feed = true },
+]
+
+# Languages — this is the multi-language engine
+[languages]
+
+[languages.en]
+title = "awtgerry"
+[languages.es]
+title = "awtgerry"
+
+[markdown]
+# Whether to do syntax highlighting
+# Theme can be customised by setting the `highlight_theme` variable to a theme supported by Zola
+highlight_code = true
+
+[extra]
+name = "Victor Rodriguez"
+email = "awtgerry@gmail.com"
+github = "awtGerry"
+linkedin = "https://www.linkedin.com/in/awtgerry"
+
+# Navigation labels per language
+[extra.nav.en]
+projects = "Projects"
+blog = "Blog"
+cv = "CV"
+
+[extra.nav.es]
+projects = "Proyectos"
+blog = "Blog"
+cv = "CV"
+
+# Hero text per language
+[extra.hero.en]
+tagline = "Victor Rodriguez"
+subtitle = "Software Engineer."
+description = "I make fast, reliable software."
+
+[extra.hero.es]
+tagline = "Victor Rodriguez"
+subtitle = "Ingeniero en Desarrollo de Software."
+description = "Hago software rápido y confiable."
+
+# ── Section headings ──
+[extra.sections.en]
+selected_work = "Selected Work"
+view_all = "View all"
+latest_writing = "Latest Writing"
+all_posts = "All posts"
+
+[extra.sections.es]
+selected_work = "Trabajo Destacado"
+view_all = "Ver todo"
+latest_writing = "Últimas Publicaciones"
+all_posts = "Todas las entradas"
+
+# ── Footer ──
+[extra.footer.en]
+rss = "RSS"
+source = "Source"
+
+[extra.footer.es]
+rss = "RSS"
+source = "Código Fuente"

@@ -1,0 +1,43 @@
+{% macro render() %} {% set nav = config.extra.nav[lang] %}
+
+<nav class="site-nav">
+  <a href="{{ get_url(path='', lang=lang) }}" class="site-logo">awtgerry</a>
+
+  <div class="nav-links">
+    <a
+      href="{{ get_url(path='projects/_index.md', lang=lang) }}"
+      class="{% if current_path and current_path is starting_with('/projects') %}active{% endif %}"
+    >
+      {{ nav.projects }}
+    </a>
+    <a
+      href="{{ get_url(path='blog/_index.md', lang=lang) }}"
+      class="{% if current_path and current_path is starting_with('/blog') %}active{% endif %}"
+    >
+      {{ nav.blog }}
+    </a>
+    <a
+      href="{{ get_url(path='cv/_index.md', lang=lang) }}"
+      class="{% if current_path and current_path is starting_with('/cv') %}active{% endif %}"
+    >
+      {{ nav.cv }}
+    </a>
+
+    <span class="lang-divider">·</span>
+
+    {% if lang == 'en' %}
+    <a
+      href="{{ current_path | replace(from='/en/', to='/es/') }}"
+      class="lang-switch"
+      >ES</a
+    >
+    {% else %}
+    <a
+      href="{{ current_path | replace(from='/es/', to='/en/') }}"
+      class="lang-switch"
+      >EN</a
+    >
+    {% endif %}
+  </div>
+</nav>
+{% endmacro %}

@@ -1,0 +1,10 @@
+{% macro render() %} {% set footer = config.extra.footer[lang] %}
+
+<footer class="site-footer">
+  <span>© {{ now() | date(format="%Y") }}</span>
+  <div class="footer-links">
+    <a href="{{ get_url(path='rss.xml') }}">{{ footer.rss }}</a>
+    <a href="https://github.com/awtgerry/awtweb">{{ footer.source }}</a>
+  </div>
+</footer>
+{% endmacro %}
