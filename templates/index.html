@@ -25,7 +25,7 @@
 <section class="section">
   <div class="section-header">
     <h2>{{ sections.selected_work }}</h2>
-    <a href="{{ get_url(path='projects/_index.md', lang=lang) }}"
+    <a href="{{ get_url(path='@/' ~ lang ~ '/projects/_index.md') }}"
       >{{ sections.view_all }} →</a
     >
   </div>
@@ -39,7 +39,7 @@
 <section class="section">
   <div class="section-header">
     <h2>{{ sections.latest_writing }}</h2>
-    <a href="{{ get_url(path='blog/_index.md', lang=lang) }}"
+    <a href="{{ get_url(path='@/' ~ lang ~ '/blog/_index.md') }}"
       >{{ sections.all_posts }} →</a
     >
   </div>

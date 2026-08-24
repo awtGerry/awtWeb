@@ -5,19 +5,19 @@
 
   <div class="nav-links">
     <a
-      href="{{ get_url(path='projects/_index.md', lang=lang) }}"
+      href="{{ get_url(path='@/' ~ lang ~ '/projects/_index.md') }}"
       class="{% if current_path and current_path is starting_with('/projects') %}active{% endif %}"
     >
       {{ nav.projects }}
     </a>
     <a
-      href="{{ get_url(path='blog/_index.md', lang=lang) }}"
+      href="{{ get_url(path='@/' ~ lang ~ '/blog/_index.md') }}"
       class="{% if current_path and current_path is starting_with('/blog') %}active{% endif %}"
     >
       {{ nav.blog }}
     </a>
     <a
-      href="{{ get_url(path='cv/_index.md', lang=lang) }}"
+      href="{{ get_url(path='@/' ~ lang ~ '/projects/_index.md') }}"
       class="{% if current_path and current_path is starting_with('/cv') %}active{% endif %}"
     >
       {{ nav.cv }}
