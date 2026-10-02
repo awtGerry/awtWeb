@@ -1,6 +1,9 @@
 {% extends "base.html" %} {% import "macros/project_card.html" as project_card
 %} {% block content %} {% set hero = config.extra.hero[lang] %} {% set sections
-= config.extra.sections[lang] %}
+= config.extra.sections[lang] %} {% set projects_section =
+get_section(path="projects/_index.md", lang=lang) %} {% set blog_section =
+get_section(path="blog/_index.md", lang=lang) %} {% set latest_post =
+blog_section.pages | first %}
 
 <!-- ═══════ HERO ═══════ -->
 <header class="hero">
@@ -9,10 +12,11 @@
     <span class="hero-subtitle">{{ hero.subtitle }}</span>
   </h1>
   <p class="hero-desc">{{ hero.description }}</p>
+  <p class="hero-location">{{ hero.location }}</p>
 
   <div class="hero-links">
     <a href="https://github.com/{{ config.extra.github }}">GitHub →</a>
-    <a href="https://linkedin.com/in/{{ config.extra.linkedin }}">LinkedIn →</a>
+    <a href="{{ config.extra.linkedin }}">LinkedIn →</a>
     <span class="link-sep">·</span>
     <a href="mailto:{{ config.extra.email }}" class="email"
       >{{ config.extra.email }}</a
@@ -21,47 +25,46 @@
 </header>
 
 <!-- ═══════ SELECTED PROJECTS ═══════ -->
-<!-- NOTE: prepend lang to the path for get_section -->
 <section class="section">
   <div class="section-header">
     <h2>{{ sections.selected_work }}</h2>
-    <a href="{{ get_url(path='@/' ~ lang ~ '/projects/_index.md') }}"
-      >{{ sections.view_all }} →</a
-    >
+    <a href="{{ projects_section.permalink }}">{{ sections.view_all }} →</a>
   </div>
 
-  {% set projects_path = lang ~ "/projects/_index.md" %} {% set projects_section
-  = get_section(path=projects_path) %} {% for page in projects_section.pages |
-  slice(end=3) %} {{ project_card::render(page=page) }} {% endfor %}
+  {% for path in config.extra.selected_projects %}
+  {% set page = get_page(path=path, lang=lang) %}
+  {{ project_card::render(page=page) }}
+  {% endfor %}
 </section>
 
 <!-- ═══════ LATEST BLOG POST ═══════ -->
+{% if latest_post %}
 <section class="section">
   <div class="section-header">
     <h2>{{ sections.latest_writing }}</h2>
-    <a href="{{ get_url(path='@/' ~ lang ~ '/blog/_index.md') }}"
-      >{{ sections.all_posts }} →</a
-    >
+    <a href="{{ blog_section.permalink }}">{{ sections.all_posts }} →</a>
   </div>
 
-  {% set blog_path = lang ~ "/blog/_index.md" %} {% set blog_section =
-  get_section(path=blog_path) %} {% set latest_post = blog_section.pages | first
-  %} {% if latest_post %}
   <article class="blog-preview">
     <div class="blog-preview-header">
       <a href="{{ latest_post.permalink }}" class="blog-title">
         {{ latest_post.title }}
       </a>
-      <time>{{ latest_post.date | date(format="%b %Y") }}</time>
+      <time
+        >{{ latest_post.date | date(format=config.extra.dates[lang].short,
+        locale=config.extra.dates[lang].locale) }}</time
+      >
     </div>
+    {% if latest_post.description %}
     <p class="blog-excerpt">{{ latest_post.description }}</p>
+    {% endif %}
     <div class="blog-tags">
       {% for tag in latest_post.taxonomies.tags %}
       <span>#{{ tag }}</span>
       {% endfor %}
     </div>
   </article>
-  {% endif %}
 </section>
+{% endif %}
 
 {% endblock content %}

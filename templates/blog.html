@@ -3,16 +3,32 @@ config.extra.sections[lang] %}
 
 <header class="page-header">
   <h1>{{ sections.latest_writing }}</h1>
+  {% if not section.pages %}
+  <p>{{ sections.no_posts }}</p>
+  {% endif %}
 </header>
+
+{% set other_blog = get_section(path="blog/_index.md",
+lang=config.extra.other_language[lang]) %} {% if not section.pages and
+other_blog.pages %}
+<div class="project-links">
+  <a href="{{ other_blog.permalink }}">{{ sections.other_language_posts }} →</a>
+</div>
+{% endif %}
 
 <section class="section">
   {% for page in section.pages %}
   <article class="blog-preview">
     <div class="blog-preview-header">
       <a href="{{ page.permalink }}" class="blog-title">{{ page.title }}</a>
-      <time>{{ page.date | date(format="%b %Y") }}</time>
+      <time
+        >{{ page.date | date(format=config.extra.dates[lang].short,
+        locale=config.extra.dates[lang].locale) }}</time
+      >
     </div>
+    {% if page.description %}
     <p class="blog-excerpt">{{ page.description }}</p>
+    {% endif %}
     <div class="blog-tags">
       {% for tag in page.taxonomies.tags %}
       <span>#{{ tag }}</span>

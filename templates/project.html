@@ -1,34 +1,50 @@
-{% extends "base.html" %} {% block content %}
+{% extends "base.html" %} {% import "macros/project_card.html" as project_card
+%} {% block content %}
 
 <article class="project-detail">
   <header class="project-detail-header">
     <h1>{{ page.title }}</h1>
-    <span class="ai-label">{{ page.extra.ai_usage }}</span>
     {% if page.extra.type %}
-    <span class="ai-label">{{ page.extra.type }}</span>
+    <span class="project-type">{{ page.extra.type }}</span>
     {% endif %}
   </header>
 
   <p class="project-detail-desc">{{ page.description }}</p>
 
-  <div class="tag-row">
-    {% for lang in page.extra.languages %}
-    <span class="tag tag-lang">{{ lang }}</span>
-    {% endfor %}
-    <span class="tag tag-domain">{{ page.extra.domain }}</span>
-    <span class="tag tag-status">{{ page.extra.status }}</span>
-  </div>
+  {{ project_card::meta(page=page) }}
 
-  {% if page.extra.repo %}
+  {% if page.extra.repo or page.extra.demo %}
   <div class="project-links">
-    <a href="{{ page.extra.repo }}" target="_blank" rel="noopener">GitHub →</a>
-    {% if page.extra.demo %}
+    {% if page.extra.repo %}
+    <a href="{{ page.extra.repo }}" target="_blank" rel="noopener"
+      >{% if page.extra.repo is containing("github.com") %}GitHub{% else %}{{
+      config.extra.footer[lang].source }}{% endif %} →</a
+    >
+    {% endif %} {% if page.extra.demo %}
     <a href="{{ page.extra.demo }}" target="_blank" rel="noopener">Demo →</a>
     {% endif %}
   </div>
   {% endif %}
 
-  <div class="project-body">{{ page.content | safe }}</div>
+  <div class="project-body">
+    {% if page.extra.role %}
+    <p><strong>{% if lang == "es" %}Mi rol:{% else %}My role:{% endif %}</strong> {{ page.extra.role }}</p>
+    {% endif %}
+    {{ page.content | safe }}
+
+    {% if page.extra.ai_usage %}
+    <h2>{% if lang == "es" %}Proceso de desarrollo{% else %}Development process{% endif %}</h2>
+    <p>
+      {% if page.extra.ai_usage in ["AI-free", "Sin IA"] %}
+        {% if lang == "es" %}Desarrollado sin IA generativa.{% else %}Developed without generative AI.{% endif %}
+      {% elif page.extra.ai_usage in ["Hybrid", "Híbrido"] %}
+        {% if lang == "es" %}Desarrollo con asistencia de IA.{% else %}AI-assisted development.{% endif %}
+      {% else %}
+        {% if lang == "es" %}Uso de IA:{% else %}AI usage:{% endif %} {{ page.extra.ai_usage }}
+      {% endif %}
+    </p>
+    {% endif %}
+  </div>
 </article>
 
 {% endblock %}
