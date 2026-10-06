@@ -1,0 +1,16 @@
+# Cloudflare Worker that serves the Zola build as static assets.
+# Deployed by .github/workflows/deploy.yml on every push to master.
+name = "awtweb"
+compatibility_date = "2026-10-01"
+
+# Only serve on the custom domain, not also on *.workers.dev
+workers_dev = false
+
+[assets]
+directory = "./public"
+not_found_handling = "404-page"
+
+# Cloudflare creates the DNS record and certificate for this hostname on deploy.
+[[routes]]
+pattern = "awtgerry.com"
+custom_domain = true

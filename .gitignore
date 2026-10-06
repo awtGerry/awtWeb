@@ -1,0 +1,8 @@
+# Zola build output
+public/
+
+# Python bytecode from the tests
+__pycache__/
+
+# Wrangler local state
+.wrangler/

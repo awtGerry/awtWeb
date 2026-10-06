@@ -1,81 +1,54 @@
-name: Release to Github Pages
+name: Deploy to Cloudflare
 
 on:
   push:
     branches: [master]
+  pull_request:
   workflow_dispatch:
 
 permissions:
-  contents: write # for committing to gh-pages branch.
-  pages: write
-  id-token: write
+  contents: read
 
-# Allow only one concurrent deployment, skipping runs queued between the run in-progress and latest queued.
-# However, do NOT cancel in-progress runs as we want to allow these production deployments to complete.
+# One run per branch at a time; never cancel a deploy halfway through.
 concurrency:
-  group: "pages"
+  group: ${{ github.workflow }}-${{ github.ref }}
   cancel-in-progress: false
 
-jobs:
-  Github-Pages-Release:
+env:
+  # Keep in step with `nix develop` (zola --version)
+  ZOLA_VERSION: "0.21.0"
+  ZOLA_SHA256: "5c37a8f706567d6cad3f0dbc0eaebe3b9591cc301bd67089e5ddc0d0401732d6"
 
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
     timeout-minutes: 10
 
-    environment:
-      name: github-pages
-      url: ${{ steps.deployment.outputs.page_url }}
-
-    runs-on: ubuntu-latest
-
     steps:
-      - uses: actions/checkout@v4 # repo checkout
+      - uses: actions/checkout@v7
 
-      # Install Rust Nightly Toolchain, with Clippy & Rustfmt
-      - name: Install nightly Rust
-        uses: dtolnay/rust-toolchain@nightly
+      - name: Install Zola
+        run: |
+          curl -sSfL -o zola.tar.gz \
+            "https://github.com/getzola/zola/releases/download/v${ZOLA_VERSION}/zola-v${ZOLA_VERSION}-x86_64-unknown-linux-gnu.tar.gz"
+          echo "${ZOLA_SHA256}  zola.tar.gz" | sha256sum -c -
+          mkdir -p "$RUNNER_TEMP/bin"
+          tar -xzf zola.tar.gz -C "$RUNNER_TEMP/bin" zola
+          rm zola.tar.gz
+          echo "$RUNNER_TEMP/bin" >> "$GITHUB_PATH"
+
+      - name: Test
+        run: python3 -m unittest discover -s tests -v
+
+      - name: Build
+        run: zola build
+
+      # Pull requests stop here: tested and built, not deployed.
+      - name: Deploy
+        if: github.event_name != 'pull_request' && github.ref == 'refs/heads/master'
+        uses: cloudflare/wrangler-action@v4
         with:
-          components: clippy, rustfmt
-
-      - name: Add WASM target
-        run: rustup target add wasm32-unknown-unknown
-
-      - name: lint
-        run: cargo clippy & cargo fmt
-
-      - name: Download and install Trunk binary
-        run: wget -qO- https://github.com/trunk-rs/trunk/releases/download/v0.18.4/trunk-x86_64-unknown-linux-gnu.tar.gz | tar -xzf-
-
-      - name: Build with Trunk
-        # "${GITHUB_REPOSITORY#*/}" evaluates into the name of the repository
-        # using --public-url something will allow trunk to modify all the href paths like from favicon.ico to repo_name/favicon.ico .
-        # this is necessary for github pages where the site is deployed to username.github.io/repo_name and all files must be requested
-        # relatively as favicon.ico. if we skip public-url option, the href paths will instead request username.github.io/favicon.ico which
-        # will obviously return error 404 not found.
-        run: ./trunk build --release --public-url "${GITHUB_REPOSITORY#*/}"
-
-
-      # Deploy to gh-pages branch
-      # - name: Deploy 🚀
-      #   uses: JamesIves/github-pages-deploy-action@v4
-      #   with:
-      #     folder: dist
-
-
-      # Deploy with Github Static Pages
-
-      - name: Setup Pages
-        uses: actions/configure-pages@v4
-        with:
-          enablement: true
-          # token:
-
-      - name: Upload artifact
-        uses: actions/upload-pages-artifact@v4
-        with:
-          # Upload dist dir
-          path: './dist'
-
-      - name: Deploy to GitHub Pages 🚀
-        id: deployment
-        uses: actions/deploy-pages@v4
-
+          apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+          wranglerVersion: "4.147.0"
+          command: deploy
