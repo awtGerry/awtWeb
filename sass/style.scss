@@ -437,6 +437,15 @@ main {
   }
 }
 
+.project-shot {
+  display: block;
+  max-width: 100%;
+  height: auto;
+  margin-top: 32px;
+  border: 1px solid $border-hi;
+  border-radius: 8px;
+}
+
 .project-body {
   margin-top: 32px;
   font-size: 15px;

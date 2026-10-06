@@ -18,6 +18,10 @@ scale = "Production"
 type = "Private"
 repo = "" # private repo
 demo = "" # private, no demo
+screenshot = "images/projects/pos.webp"
+screenshot_width = 1440
+screenshot_height = 900
+screenshot_alt = "The sales screen of the point-of-sale app in its salon configuration: service cards on the left, and on the right a ticket with three services, a retail product, the total and a Charge button."
 
 +++
 

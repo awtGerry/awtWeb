@@ -12,9 +12,13 @@ domain = "Education"
 ai_usage = "AI-free"
 status = "Production"
 scale = "Production"
-type = "Open Source"
-repo = "https://github.com/School-Roster/school_roster.app"
+type = "Private"
+repo = "" # private repo
 demo = ""
+screenshot = "images/projects/school_roster.webp"
+screenshot_width = 2560
+screenshot_height = 1600
+screenshot_alt = "School Roster's welcome screen: a headline, buttons to create or open a timetable, and a sample timetable board of groups by day and period, warning that a teacher is already booked in another group."
 
 +++
 
@@ -28,4 +32,4 @@ The core is a hand-written depth-first backtracking search. It takes the most co
 - The scheduling engine lives in its own module — `engine`, `constraints`, `scorer`, `types` — after a refactor out of one function that mixed heuristics, scoring, and persistence together.
 - Drag-and-drop grid editing with full undo/redo on top of the generated schedule, so a human can always overrule the solver.
 
-Open source with outside contributors, released through v1.0.1 on an automated cross-platform pipeline. v2.0 — Tauri v2, a rewritten engine, mobile support — is in progress against a public roadmap.
+Now private. The versions up to v1.0.1 were released publicly, with outside contributors, on an automated cross-platform pipeline. v2.0 — Tauri v2, a rewritten engine, mobile support — is coming soon.

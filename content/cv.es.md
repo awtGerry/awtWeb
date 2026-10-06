@@ -44,7 +44,7 @@ Go, PostgreSQL, Vue, TypeScript · Proyecto privado para clientes
 
 ### [School Roster](@/projects/school_roster.es.md)
 
-Rust, Tauri, SvelteKit, TypeScript, SQLite · Código abierto
+Rust, Tauri, SvelteKit, TypeScript, SQLite · Privado
 
 - Desarrollé una aplicación de horarios escolares con un motor propio de backtracking y verificación de disponibilidad de aulas mediante emparejamiento bipartito.
 - Agregué edición manual con deshacer y rehacer, importación desde Excel, exportación a PDF y publicaciones multiplataforma automatizadas hasta la v1.0.1.

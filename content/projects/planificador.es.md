@@ -16,6 +16,10 @@ scale = "Producción"
 type = "Privado"
 repo = "" # repositorio privado
 demo = "" # interno, sin demo
+screenshot = "images/projects/planificador.webp"
+screenshot_width = 1904
+screenshot_height = 939
+screenshot_alt = "El tablero semanal de Planificador: una columna por día más una de tareas sin día, tarjetas por cliente con su color y una fila de filtros de cliente arriba. Dos nombres de clientes están difuminados."
 
 +++
 

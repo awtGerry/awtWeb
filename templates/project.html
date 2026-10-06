@@ -21,9 +21,19 @@
       config.extra.footer[lang].source }}{% endif %} →</a
     >
     {% endif %} {% if page.extra.demo %}
-    <a href="{{ page.extra.demo }}" target="_blank" rel="noopener">Demo →</a>
+    <a href="{{ page.extra.demo }}" target="_blank" rel="noopener">{% if lang == "es" %}Visitar sitio{% else %}Visit site{% endif %} →</a>
     {% endif %}
   </div>
+  {% endif %}
+
+  {% if page.extra.screenshot %}
+  <img
+    class="project-shot"
+    src="{{ get_url(path=page.extra.screenshot) }}"
+    alt="{{ page.extra.screenshot_alt }}"
+    width="{{ page.extra.screenshot_width }}"
+    height="{{ page.extra.screenshot_height }}"
+  />
   {% endif %}
 
   <div class="project-body">
@@ -31,19 +41,6 @@
     <p><strong>{% if lang == "es" %}Mi rol:{% else %}My role:{% endif %}</strong> {{ page.extra.role }}</p>
     {% endif %}
     {{ page.content | safe }}
-
-    {% if page.extra.ai_usage %}
-    <h2>{% if lang == "es" %}Proceso de desarrollo{% else %}Development process{% endif %}</h2>
-    <p>
-      {% if page.extra.ai_usage in ["AI-free", "Sin IA"] %}
-        {% if lang == "es" %}Desarrollado sin IA generativa.{% else %}Developed without generative AI.{% endif %}
-      {% elif page.extra.ai_usage in ["Hybrid", "Híbrido"] %}
-        {% if lang == "es" %}Desarrollo con asistencia de IA.{% else %}AI-assisted development.{% endif %}
-      {% else %}
-        {% if lang == "es" %}Uso de IA:{% else %}AI usage:{% endif %} {{ page.extra.ai_usage }}
-      {% endif %}
-    </p>
-    {% endif %}
   </div>
 </article>
 

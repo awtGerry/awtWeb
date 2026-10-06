@@ -22,6 +22,13 @@ BASE_URL = "https://awtgerry.com"
 HOMES = {"en": "index.html", "es": "es/index.html"}
 BLOGS = {"en": "blog/index.html", "es": "es/blog/index.html"}
 SITE = None
+SCREENSHOTS = ("pos", "planificador", "school_roster")
+LIVE_SITES = {
+    "projects/monarch/index.html": "https://monarchwellness.mx",
+    "es/projects/monarch/index.html": "https://monarchwellness.mx",
+    "projects/arenzano/index.html": "https://arenzanobeachwear.com/",
+    "es/projects/arenzano/index.html": "https://arenzanobeachwear.com/",
+}
 
 
 def setUpModule():
@@ -182,6 +189,80 @@ class ProjectMetadata(SiteTest):
         self.assertNotIn("Production", html.split("project-body")[0])
 
 
+def project_page(lang, slug):
+    # Zola slugifies file names: school_roster.md is served at /projects/school-roster/
+    return f"{'es/' if lang == 'es' else ''}projects/{slug.replace('_', '-')}/index.html"
+
+
+class ProjectScreenshots(SiteTest):
+    def images(self, path):
+        return re.findall(r"<img\s([^>]*)>", main(read(path)))
+
+    def test_featured_projects_show_a_screenshot(self):
+        for lang in ("en", "es"):
+            for slug in SCREENSHOTS:
+                path = project_page(lang, slug)
+                shots = self.images(path)
+                self.assertEqual(len(shots), 1, f"{path} should show exactly one screenshot")
+                src = attr(shots[0], "src")
+                self.assertTrue(local(src).is_file(), f"{path}: {src} was not built")
+                self.assertTrue((attr(shots[0], "alt") or "").strip(), f"{path}: screenshot has no alt text")
+                self.assertTrue(attr(shots[0], "width") and attr(shots[0], "height"), f"{path}: size not declared")
+
+    def test_alt_text_is_in_the_page_language(self):
+        for slug in SCREENSHOTS:
+            en = attr(self.images(project_page("en", slug))[0], "alt")
+            es = attr(self.images(project_page("es", slug))[0], "alt")
+            self.assertNotEqual(en, es, f"{slug}: both languages share the same alt text")
+
+    def test_projects_without_a_picture_show_none(self):
+        for slug in ("monarch", "arenzano", "sales_sim", "engine"):
+            for lang in ("en", "es"):
+                self.assertEqual(self.images(project_page(lang, slug)), [], f"{lang}/{slug}")
+
+    def test_screenshots_are_light_enough_for_the_web(self):
+        for slug in SCREENSHOTS:
+            src = attr(self.images(project_page("en", slug))[0], "src")
+            image = local(src)
+            self.assertEqual(image.suffix, ".webp", rel(image))
+            self.assertLess(image.stat().st_size, 400_000, f"{rel(image)} is over 400 KB")
+
+    def test_screenshots_fit_narrow_screens(self):
+        self.assertCss(r"\.project-shot\{[^}]*max-width:\s*100%", ".project-shot can overflow a phone screen")
+
+    def test_listings_stay_text_only(self):
+        for path in ("projects/index.html", "es/projects/index.html", "index.html", "es/index.html"):
+            self.assertNotIn("<img", main(read(path)), path)
+
+
+class ProjectPages(SiteTest):
+    def test_no_project_has_a_development_process_section(self):
+        for lang in ("en", "es"):
+            for slug in (*SCREENSHOTS, "monarch", "arenzano", "sales_sim", "engine"):
+                path = project_page(lang, slug)
+                html = main(read(path))
+                self.assertNotRegex(html, r"(?i)development process|proceso de desarrollo", path)
+                self.assertNotRegex(html, r"(?i)generative AI|IA generativa|AI-assisted|asistencia de IA", path)
+
+
+class SchoolRoster(SiteTest):
+    def test_is_no_longer_open_source(self):
+        for path in (project_page("en", "school_roster"), project_page("es", "school_roster")):
+            html = read(path)
+            self.assertNotIn("github.com/School-Roster", html, path)
+            self.assertNotRegex(html, r"(?i)open source|código abierto", path)
+            self.assertIn("Privado" if in_spanish(path) else "Private", html.split("project-body")[0], path)
+
+    def test_announces_v2_as_coming_soon(self):
+        self.assertRegex(main(read(project_page("en", "school_roster"))), r"(?i)v2\.0.*coming soon")
+        self.assertRegex(main(read(project_page("es", "school_roster"))), r"(?i)v2\.0.*próximamente")
+
+    def test_cv_does_not_call_it_open_source(self):
+        for path in ("cv/index.html", "es/cv/index.html"):
+            section = re.search(r"School Roster.*?(?=Sales Simulator|Simulador de Ventas)", read(path), re.S).group(0)
+            self.assertNotRegex(section, r"(?i)open source|código abierto", path)
+
+
 class Fluidity(SiteTest):
     def test_scrollbar_gutter_is_reserved(self):
         self.assertCss(r"html\{[^}]*scrollbar-gutter:\s*stable", "html does not reserve the scrollbar gutter")
@@ -232,9 +313,17 @@ class Links(SiteTest):
             active = [text for _, cls, text in anchors(nav(read(path))) if cls and "active" in cls.split()]
             self.assertEqual(active, expected, path)
 
-    def test_demo_link_shows_without_a_public_repo(self):
-        hrefs = [h for h, _, _ in anchors(read("projects/monarch/index.html"))]
-        self.assertIn("https://monarchwellness.mx", hrefs)
+    def test_live_site_link_shows_without_a_public_repo(self):
+        for path, url in LIVE_SITES.items():
+            hrefs = [h for h, _, _ in anchors(read(path))]
+            self.assertIn(url, hrefs, path)
+
+    def test_live_sites_are_not_called_demos(self):
+        for path, url in LIVE_SITES.items():
+            label = next(text for h, _, text in anchors(main(read(path))) if h == url)
+            expected = "Visitar sitio" if in_spanish(path) else "Visit site"
+            self.assertIn(expected, label, path)
+            self.assertNotRegex(main(read(path)), r"(?i)\bdemo\b", f"{path} still talks about a demo")
 
     def test_repo_link_names_its_host(self):
         def label(path, href):

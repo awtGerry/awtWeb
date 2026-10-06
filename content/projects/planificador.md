@@ -16,6 +16,10 @@ scale = "Production"
 type = "Private"
 repo = "" # private repo
 demo = "" # internal, no demo
+screenshot = "images/projects/planificador.webp"
+screenshot_width = 1904
+screenshot_height = 939
+screenshot_alt = "The weekly board of Planificador: one column per weekday plus an unscheduled column, task cards grouped by client color, and a row of client filters on top. Two client names are blurred."
 
 +++
 

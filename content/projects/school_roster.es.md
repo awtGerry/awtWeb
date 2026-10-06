@@ -12,9 +12,13 @@ domain = "Educación"
 ai_usage = "Sin IA"
 status = "Producción"
 scale = "Producción"
-type = "Código abierto"
-repo = "https://github.com/School-Roster/school_roster.app"
+type = "Privado"
+repo = "" # repositorio privado
 demo = ""
+screenshot = "images/projects/school_roster.webp"
+screenshot_width = 2560
+screenshot_height = 1600
+screenshot_alt = "La pantalla de bienvenida de School Roster: un titular, botones para crear o abrir un horario y una pizarra de ejemplo con grupos por día y módulo que avisa que un profesor ya está con otro grupo."
 
 +++
 
@@ -28,4 +32,4 @@ El corazón es una búsqueda de backtracking en profundidad escrita a mano. Toma
 - El motor de horarios vive en su propio módulo — `engine`, `constraints`, `scorer`, `types` — tras sacarlo de una sola función que mezclaba heurísticas, puntuación y persistencia.
 - Edición del horario generado con arrastrar y soltar, con deshacer y rehacer completos, para que una persona siempre pueda corregir al solucionador.
 
-Código abierto con colaboradores externos, publicado hasta la v1.0.1 en un pipeline multiplataforma automatizado. La v2.0 — Tauri v2, motor reescrito, soporte móvil — está en curso contra un roadmap público.
+Ahora es privado. Las versiones hasta la v1.0.1 se publicaron abiertamente, con colaboradores externos, en un pipeline multiplataforma automatizado. La v2.0 — Tauri v2, motor reescrito, soporte móvil — llega próximamente.

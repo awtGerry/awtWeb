@@ -15,7 +15,7 @@ status = "Producción"
 scale = "Producción"
 type = "Privado"
 repo = "" # repositorio privado
-demo = "" # privado, sin demo
+demo = "https://arenzanobeachwear.com/"
 
 +++
 
@@ -29,4 +29,4 @@ Lo interesante es que no es dueña de su catálogo. Los productos se replican en
 - Tienda en Astro que hidrata solo lo interactivo — catálogo, carrito, checkout — como islas de React.
 - CI con detección de comportamiento indefinido y auditoría de dependencias, y pruebas que golpean un Postgres real en contenedores efímeros en lugar de simularlo.
 
-Proyecto privado para cliente, de la misma familia que la plataforma de punto de venta. Sin repositorio público ni demo.
+Proyecto privado para cliente, en producción y de la misma familia que la plataforma de punto de venta. Sin repositorio público.

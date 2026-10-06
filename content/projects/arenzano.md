@@ -15,7 +15,7 @@ status = "Production"
 scale = "Production"
 type = "Private"
 repo = "" # private repo
-demo = "" # private, no demo
+demo = "https://arenzanobeachwear.com/"
 
 +++
 
@@ -29,4 +29,4 @@ The interesting part is that it doesn't own its catalog. Products mirror one-way
 - Astro storefront that hydrates only the interactive parts — catalog, cart, checkout — as React islands.
 - CI runs undefined-behavior detection and dependency audits, and the tests hit a real Postgres in ephemeral containers instead of mocking it away.
 
-Private client work, part of the same family as the point-of-sale platform. No public repo or demo.
+Private client work, live in production and part of the same family as the point-of-sale platform. No public repo.

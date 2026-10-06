@@ -18,6 +18,10 @@ scale = "Producción"
 type = "Privado"
 repo = "" # repositorio privado
 demo = "" # privado, sin demo
+screenshot = "images/projects/pos.webp"
+screenshot_width = 1440
+screenshot_height = 900
+screenshot_alt = "La pantalla de ventas del punto de venta en su configuración para el salón: tarjetas de servicios a la izquierda y, a la derecha, un ticket con tres servicios, un producto, el total y el botón Cobrar."
 
 +++
 

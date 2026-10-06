@@ -44,7 +44,7 @@ Go, PostgreSQL, Vue, TypeScript · Private client work
 
 ### [School Roster](@/projects/school_roster.md)
 
-Rust, Tauri, SvelteKit, TypeScript, SQLite · Open source
+Rust, Tauri, SvelteKit, TypeScript, SQLite · Private
 
 - Developed a school timetable application with a custom backtracking scheduler and classroom feasibility checks using bipartite matching.
 - Added manual schedule editing with undo/redo, Excel import, PDF export, and automated cross-platform releases through v1.0.1.
