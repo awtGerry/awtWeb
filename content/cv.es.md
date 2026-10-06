@@ -6,7 +6,7 @@ title = "CV"
 
 **Ingeniero de Software** · Guadalajara, Jalisco, México
 
-[awtgerry@gmail.com](mailto:awtgerry@gmail.com) · [GitHub](https://github.com/awtGerry) · [LinkedIn](https://www.linkedin.com/in/awtgerry)
+[awtgerry@gmail.com](mailto:awtgerry@gmail.com) · [GitHub](https://github.com/awtGerry) · [LinkedIn](https://www.linkedin.com/in/awtgerry) · [Descargar PDF](/cv.pdf)
 
 Ingeniero de software enfocado en aplicaciones de negocio, APIs y herramientas de escritorio con Go, Rust, Python y TypeScript. Mi trabajo incluye sistemas de retail en producción, aplicaciones que reemplazan hojas de cálculo y una herramienta de código abierto para generar horarios escolares.
 

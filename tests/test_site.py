@@ -297,6 +297,19 @@ class Links(SiteTest):
             self.assertEqual(page, SITE / cv, f"{home}: CV goes to {href}")
             self.assertEqual(title(page.read_text(encoding="utf-8")), "CV · awtgerry")
 
+    def test_cv_pdf_is_served(self):
+        pdf = SITE / "cv.pdf"
+        self.assertTrue(pdf.is_file(), "cv.pdf was not built")
+        self.assertEqual(pdf.read_bytes()[:5], b"%PDF-", "cv.pdf is not a PDF")
+
+    def test_cv_pages_offer_the_pdf_download(self):
+        for path, label in (("cv/index.html", "Download PDF"), ("es/cv/index.html", "Descargar PDF")):
+            links = [(h, text) for h, _, text in anchors(main(read(path))) if h.endswith("cv.pdf")]
+            self.assertEqual(len(links), 1, f"{path} should link the PDF once")
+            href, text = links[0]
+            self.assertEqual(local(href), SITE / "cv.pdf", f"{path}: {href}")
+            self.assertIn(label, text, path)
+
     def test_nav_marks_the_current_section(self):
         cases = {
             "index.html": [],

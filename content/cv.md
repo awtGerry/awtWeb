@@ -6,7 +6,7 @@ title = "CV"
 
 **Software Engineer** · Guadalajara, Jalisco, Mexico
 
-[awtgerry@gmail.com](mailto:awtgerry@gmail.com) · [GitHub](https://github.com/awtGerry) · [LinkedIn](https://www.linkedin.com/in/awtgerry)
+[awtgerry@gmail.com](mailto:awtgerry@gmail.com) · [GitHub](https://github.com/awtGerry) · [LinkedIn](https://www.linkedin.com/in/awtgerry) · [Download PDF](/cv.pdf)
 
 Software engineer building business applications, APIs, and desktop tools with Go, Rust, Python, and TypeScript. My work includes production retail systems, spreadsheet replacements, and an open-source school scheduling application.
 
