@@ -1,0 +1,32 @@
+{% import "macros/nav.html" as nav %}
+{% import "macros/footer.html" as footer %}
+<!DOCTYPE html>
+<html lang="{{ lang }}">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="color-scheme" content="dark" />
+    <title>{% block title %}{% if page %}{{ page.title }} · {% elif section and section.title %}{{ section.title }} · {% endif %}{{ config.title }}{% endblock %}</title>
+    <link rel="stylesheet" href="{{ get_url(path='style.css') }}" />
+    <script type="speculationrules">
+      {
+        "prefetch": [
+          { "where": { "href_matches": "/*" }, "eagerness": "moderate" }
+        ]
+      }
+    </script>
+    <link
+      rel="alternate"
+      type="application/rss+xml"
+      title="RSS"
+      href="{{ get_url(path='@/blog/_index.md', lang=lang) }}rss.xml"
+    />
+  </head>
+  <body>
+    {{ nav::render() }}
+
+    <main>{% block content %}{% endblock %}</main>
+
+    {{ footer::render() }}
+  </body>
+</html>

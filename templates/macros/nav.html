@@ -1,0 +1,44 @@
+{% macro render() %} {% set nav = config.extra.nav[lang] %} {% set other =
+config.extra.other_language[lang] %}
+
+<nav class="site-nav">
+  <a href="{{ get_url(path='', lang=lang) }}" class="site-logo">awtgerry</a>
+
+  <div class="nav-links">
+    <a
+      href="{{ get_url(path='@/projects/_index.md', lang=lang) }}"
+      class="{% if current_path and current_path is containing('/projects/') %}active{% endif %}"
+    >
+      {{ nav.projects }}
+    </a>
+    <a
+      href="{{ get_url(path='@/blog/_index.md', lang=lang) }}"
+      class="{% if current_path and current_path is containing('/blog/') %}active{% endif %}"
+    >
+      {{ nav.blog }}
+    </a>
+    <a
+      href="{{ get_url(path='@/cv.md', lang=lang) }}"
+      class="{% if current_path and current_path is containing('/cv/') %}active{% endif %}"
+    >
+      {{ nav.cv }}
+    </a>
+
+    <span class="lang-divider">·</span>
+
+    {# The translation of this page, or the other language's home if there is none. #}
+    {% set_global switch_url = get_url(path='', lang=other) %} {% if page %} {%
+    set translations = page.translations %} {% elif section %} {% set
+    translations = section.translations %} {% else %} {% set translations = []
+    %} {% endif %} {% for t in translations %} {% if t.lang == other %} {%
+    set_global switch_url = t.permalink %} {% endif %} {% endfor %}
+    <a
+      href="{{ switch_url }}"
+      class="lang-switch"
+      hreflang="{{ other }}"
+      lang="{{ other }}"
+      >{{ other | upper }}</a
+    >
+  </div>
+</nav>
+{% endmacro %}

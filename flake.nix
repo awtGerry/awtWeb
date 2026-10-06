@@ -1,5 +1,5 @@
 {
-  description = "Flakes for leptos development";
+  description = "Nix flakes to develop with rust (zola)";
   inputs = {
     nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable";
     flake-utils.url = "github:numtide/flake-utils";
@@ -7,11 +7,12 @@
     treefmt-nix.url = "github:numtide/treefmt-nix";
   };
   outputs =
-    { nixpkgs
-    , flake-utils
-    , rust-overlay
-    , treefmt-nix
-    , ...
+    {
+      nixpkgs,
+      flake-utils,
+      rust-overlay,
+      treefmt-nix,
+      ...
     }:
     flake-utils.lib.eachDefaultSystem (
       system:
@@ -27,13 +28,12 @@
           programs = {
             nixpkgs-fmt.enable = true;
             rustfmt.enable = true;
-            leptosfmt.enable = true;
           };
         };
         packages = with pkgs; [
-          trunk
-          rustup
           treefmtEval.config.build.wrapper
+          zola
+          rust-bin.stable.latest.default # don't need anything beyond stable
         ];
       in
       {
@@ -41,7 +41,6 @@
           buildInputs = packages;
           shellHook = ''
             echo "You are now on nix shell ❄️"
-            echo "Now everything to run the project is available!"
             echo "Tip: Use 'nix fmt' to format the code"
           '';
         };

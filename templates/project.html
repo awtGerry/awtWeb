@@ -1,0 +1,47 @@
+{% extends "base.html" %} {% import "macros/project_card.html" as project_card
+%} {% block content %}
+
+<article class="project-detail">
+  <header class="project-detail-header">
+    <h1>{{ page.title }}</h1>
+    {% if page.extra.type %}
+    <span class="project-type">{{ page.extra.type }}</span>
+    {% endif %}
+  </header>
+
+  <p class="project-detail-desc">{{ page.description }}</p>
+
+  {{ project_card::meta(page=page) }}
+
+  {% if page.extra.repo or page.extra.demo %}
+  <div class="project-links">
+    {% if page.extra.repo %}
+    <a href="{{ page.extra.repo }}" target="_blank" rel="noopener"
+      >{% if page.extra.repo is containing("github.com") %}GitHub{% else %}{{
+      config.extra.footer[lang].source }}{% endif %} →</a
+    >
+    {% endif %} {% if page.extra.demo %}
+    <a href="{{ page.extra.demo }}" target="_blank" rel="noopener">{% if lang == "es" %}Visitar sitio{% else %}Visit site{% endif %} →</a>
+    {% endif %}
+  </div>
+  {% endif %}
+
+  {% if page.extra.screenshot %}
+  <img
+    class="project-shot"
+    src="{{ get_url(path=page.extra.screenshot) }}"
+    alt="{{ page.extra.screenshot_alt }}"
+    width="{{ page.extra.screenshot_width }}"
+    height="{{ page.extra.screenshot_height }}"
+  />
+  {% endif %}
+
+  <div class="project-body">
+    {% if page.extra.role %}
+    <p><strong>{% if lang == "es" %}Mi rol:{% else %}My role:{% endif %}</strong> {{ page.extra.role }}</p>
+    {% endif %}
+    {{ page.content | safe }}
+  </div>
+</article>
+
+{% endblock %}

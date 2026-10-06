@@ -1,0 +1,104 @@
+# Metadata
+base_url = "https://awtgerry.com"
+default_language = "en"
+
+# Buid settings
+compile_sass = true
+# Whether to build a search index to be used later on by a JavaScript library
+build_search_index = true
+minify_html = true
+
+# Taxonomies for the default language (English); Spanish declares its own
+# under [languages.es].
+taxonomies = [
+    { name = "tags", feed = true },
+]
+
+# Languages — this is the multi-language engine
+[languages]
+
+[languages.en]
+title = "awtgerry"
+feed_filenames = ["rss.xml"]
+[languages.es]
+title = "awtgerry"
+feed_filenames = ["rss.xml"]
+taxonomies = [{ name = "tags", feed = true }]
+
+[markdown]
+# Whether to do syntax highlighting
+# Theme can be customised by setting the `highlight_theme` variable to a theme supported by Zola
+highlight_code = true
+
+[extra]
+name = "Victor Rodriguez"
+email = "awtgerry@gmail.com"
+github = "awtGerry"
+linkedin = "https://www.linkedin.com/in/awtgerry"
+selected_projects = ["projects/pos.md", "projects/school_roster.md", "projects/sales_sim.md"]
+
+# Where each language's switch points
+[extra.other_language]
+en = "es"
+es = "en"
+
+# Date formats per language; the locale sets the month names
+[extra.dates.en]
+locale = "en_US"
+short = "%b %Y"
+long = "%B %d, %Y"
+
+[extra.dates.es]
+locale = "es_MX"
+short = "%b %Y"
+long = "%-d de %B de %Y"
+
+# Navigation labels per language
+[extra.nav.en]
+projects = "Projects"
+blog = "Blog"
+cv = "CV"
+
+[extra.nav.es]
+projects = "Proyectos"
+blog = "Blog"
+cv = "CV"
+
+# Hero text per language
+[extra.hero.en]
+tagline = "Victor Rodriguez"
+subtitle = "Software Engineer."
+description = "I make fast, reliable software."
+location = "Guadalajara, Jalisco"
+
+[extra.hero.es]
+tagline = "Victor Rodriguez"
+subtitle = "Ingeniero en Desarrollo de Software."
+description = "Hago software rápido y confiable."
+location = "Guadalajara, Jalisco"
+
+# ── Section headings ──
+[extra.sections.en]
+selected_work = "Selected Work"
+view_all = "View all"
+latest_writing = "Latest Writing"
+all_posts = "All posts"
+no_posts = "No posts in English yet."
+other_language_posts = "Read the posts in Spanish"
+
+[extra.sections.es]
+selected_work = "Trabajo Destacado"
+view_all = "Ver todo"
+latest_writing = "Últimas Publicaciones"
+all_posts = "Todas las entradas"
+no_posts = "Todavía no hay entradas en español."
+other_language_posts = "Leer las entradas en inglés"
+
+# ── Footer ──
+[extra.footer.en]
+rss = "RSS"
+source = "Source"
+
+[extra.footer.es]
+rss = "RSS"
+source = "Código Fuente"
